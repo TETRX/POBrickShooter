@@ -2,7 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import javafx.scene.shape.Circle;
+//import javafx.scene.shape.Circle;
 
 public class PlayState extends State {
     protected PlayState(StateHandler sh) {
