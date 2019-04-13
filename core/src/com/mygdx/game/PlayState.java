@@ -11,20 +11,14 @@ public class PlayState extends State {
         super(sh);
         shapeRenderer=new ShapeRenderer();
     }
-    protected PlayState(StateHandler sh, Vector2 start, Vector2 destination, WaitState ws) {
+    protected PlayState(StateHandler sh, WaitState ws) {
         super(sh);
         this.sh=sh;
         this.ws=ws;
         shapeRenderer=new ShapeRenderer();
-        bulletPosition=new Vector2();
-        bulletPosition.x=start.x;
-        bulletPosition.y=start.y;
-        bulletVelocity=destination.sub(start);
-        bulletVelocity.clamp(550,550);
+
     }
-    static final float radius = 15F;
-    Vector2 bulletPosition;
-    Vector2 bulletVelocity;
+
     ShapeRenderer shapeRenderer;
     StateHandler sh;
     WaitState ws;
@@ -34,29 +28,20 @@ public class PlayState extends State {
 
     @Override
     public void update(float gameLoopTime) {
-        bulletPosition.mulAdd(bulletVelocity,gameLoopTime);
-        if(bulletPosition.x<=0 || bulletPosition.x>=800)
-            bulletVelocity.x=-bulletVelocity.x;
-        if(bulletPosition.y>=600)
-            bulletVelocity.y=-bulletVelocity.y;
-        if(bulletPosition.y<=0)
-            sh.remove(this);
-        if(bulletPosition.y>400 && bulletPosition.y<450 && (int)(bulletPosition.x)/120<5 && ws.blocks[(int)(bulletPosition.x)/120]>0){
-            ws.blocks[(int)(bulletPosition.x)/120]--;
-            bulletVelocity.y=-bulletVelocity.y;
+        int bulletsInGame=0;
+        for(Bullet b : ws.listOfBullets){
+            bulletsInGame+=b.update(gameLoopTime);
         }
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(222,1,1,0);
-        batch.begin();
+        if(bulletsInGame==0)
+            sh.remove(this);
+        int blocksInGame=0;
         for(int i=0;i<5;i++){
-            if(ws.blocks[i]>0){
-                shapeRenderer.rect(120*i,400,100,50);
-                font.draw(batch,String.valueOf(ws.blocks[i]),i*120,400);
+            for(int j=0;j<5;j++){
+               blocksInGame+= ws.arrOfBlocks[i][j].render();
             }
         }
-        batch.end();
-        shapeRenderer.circle(bulletPosition.x,bulletPosition.y,radius);
-        shapeRenderer.end();
+        if(blocksInGame==0)
+            sh.add(new EndGameState(sh));
+
     }
 }
