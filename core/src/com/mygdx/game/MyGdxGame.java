@@ -16,7 +16,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		stateHandler = new StateHandler();
-		stateHandler.add(new WaitState(stateHandler));
+		stateHandler.add(new MenuState(stateHandler));
 		//stateHandler.add(new PlayState(stateHandler,new Vector2(0,0),new Vector2(10,10)));
 		//img = new Texture("badlogic.jpg");
 	}

@@ -25,16 +25,18 @@ public class WaitState extends State {
     Block [][] arrOfBlocks=new Block[5][5];
     int round=0;
 
-
-    int allBlocksX=50;
-    int allBlocksY=200;
-    int allBloocksHeight=300;
-    int allBlocksWidth=700;
+    float allBlocksX;
+    float allBlocksY;
+    float allBlocksHeight;
+    float allBlocksWidth;
 
     void createBlocks(){
-
-        int width=allBlocksWidth/5;
-        int height=allBloocksHeight/5;
+        allBlocksX=Gdx.graphics.getWidth()/16f; //50
+        allBlocksY=Gdx.graphics.getHeight()/3f;
+        allBlocksHeight =Gdx.graphics.getHeight()/2f;
+        allBlocksWidth=Gdx.graphics.getWidth()*7f/8f;
+        float width=allBlocksWidth/5f;
+        float height= allBlocksHeight /5f;
         for(int i=0;i<5;i++){
             for(int j=0;j<5;j++){
                 arrOfBlocks[i][j]=new Block(allBlocksX+i*width+2,allBlocksY+j*height+2,width-4,height-4,1);
@@ -46,7 +48,7 @@ public class WaitState extends State {
 
     @Override
     public void update(float gameLoopTime) {
-        start.set(400,10);
+        start.set(Gdx.graphics.getWidth()/2f,10);
         for(int i=0;i<5;i++){
             for(int j=0;j<5;j++){
                 arrOfBlocks[i][j].render();
@@ -54,13 +56,15 @@ public class WaitState extends State {
         }
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1,1,1,0);
-        shapeRenderer.circle(400,5,15);
-        shapeRenderer.line(400,0,Gdx.input.getX(),600-Gdx.input.getY());
+        shapeRenderer.circle(Gdx.graphics.getWidth()/2f,5,15);
+        shapeRenderer.line(Gdx.graphics.getWidth()/2f,0,Gdx.input.getX(),Gdx.graphics.getHeight()-Gdx.input.getY());
         shapeRenderer.end();
-
+        if(sh==null){
+            System.out.println("sh");
+        }
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                     destination.x = Gdx.input.getX();
-                    destination.y = 600-Gdx.input.getY();
+                    destination.y = Gdx.graphics.getHeight()-Gdx.input.getY();
                     velocity=destination.sub(start);
                     System.out.println("dest set"+start+"  "+destination);
                     round ++;
@@ -70,9 +74,7 @@ public class WaitState extends State {
                         x.set(start.mulAdd(velocity,i),velocity);
                         i-=0.1;
                     }
-
                     sh.add(new PlayState(sh,this));
-
             }
     }
 }

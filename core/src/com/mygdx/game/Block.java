@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.awt.*;
 
 public class Block {
-    int x,y,height,width;
+    float x,y,height,width;
     Color color;
     int value;
-    Block (int x, int y, int height, int width, int value){
+    Block (float x,float y, float height, float width, int value){
         this.x=x;
         this.y=y;
         this.height=height;
@@ -27,7 +27,6 @@ public class Block {
         if(value>0){
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(1,0,0,0);
-
             shapeRenderer.rect(x,y,height,width);
             shapeRenderer.end();
             batch.begin();
@@ -39,7 +38,7 @@ public class Block {
         return 0;
     }
 
-    public void decrese(){
+    public void decrease(){
         value--;
     }
 }

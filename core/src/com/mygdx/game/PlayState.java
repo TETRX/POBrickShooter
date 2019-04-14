@@ -16,7 +16,6 @@ public class PlayState extends State {
         this.sh=sh;
         this.ws=ws;
         shapeRenderer=new ShapeRenderer();
-
     }
 
     ShapeRenderer shapeRenderer;

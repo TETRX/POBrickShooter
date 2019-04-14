@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
@@ -24,18 +25,18 @@ public class Bullet {
 
     public int update(float gameLoopTime) {
         bulletPosition.mulAdd(bulletVelocity,gameLoopTime);
-        if(bulletPosition.x<=0 || bulletPosition.x>=800)
+        if(bulletPosition.x<=0 || bulletPosition.x>= Gdx.graphics.getWidth())
             bulletVelocity.x=-bulletVelocity.x;
-        if(bulletPosition.y>=600)
+        if(bulletPosition.y>=Gdx.graphics.getHeight())
             bulletVelocity.y=-bulletVelocity.y;
         if(bulletPosition.y<radius/2)
             return 0;
-        int width=ws.allBlocksWidth/5;
-        int height=ws.allBloocksHeight/5;
+        float width=ws.allBlocksWidth/5;
+        float height=ws.allBlocksHeight /5;
         for(int i=0;i<5;i++){
             for(int j=0;j<5;j++){
                 if(bulletPosition.x+radius > ws.allBlocksX+i*width && bulletPosition.x+radius<ws.allBlocksX+(i+1)*width && bulletPosition.y+radius>ws.allBlocksY+j*height && bulletPosition.y+radius<ws.allBlocksY+(j+1)*height && ws.arrOfBlocks[i][j].value>0){
-                    ws.arrOfBlocks[i][j].decrese();
+                    ws.arrOfBlocks[i][j].decrease();
                     System.out.println(bulletPosition+" "+i+" "+j);
                     if(bulletPosition.x+radius-10 < ws.allBlocksX+i*width || bulletPosition.x+radius+10 > ws.allBlocksX+(i+1)*width )
                         bulletVelocity.x=-bulletVelocity.x;
