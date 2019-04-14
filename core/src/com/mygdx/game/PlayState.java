@@ -21,8 +21,6 @@ public class PlayState extends State {
     ShapeRenderer shapeRenderer;
     StateHandler sh;
     WaitState ws;
-    SpriteBatch batch = new SpriteBatch();
-    BitmapFont font = new BitmapFont();
 
 
     @Override

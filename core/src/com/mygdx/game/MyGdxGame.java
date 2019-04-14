@@ -15,7 +15,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		stateHandler = new StateHandler();
+		stateHandler = new StateHandler(batch);
 		stateHandler.add(new MenuState(stateHandler));
 		//stateHandler.add(new PlayState(stateHandler,new Vector2(0,0),new Vector2(10,10)));
 		//img = new Texture("badlogic.jpg");
@@ -25,9 +25,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void render () {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stateHandler.update(Gdx.graphics.getDeltaTime());
 		///batch.draw(img, 0, 0);;
 		batch.begin();
+		stateHandler.update(Gdx.graphics.getDeltaTime());
 		batch.end();
 	}
 	

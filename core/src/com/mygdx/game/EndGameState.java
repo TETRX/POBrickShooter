@@ -10,14 +10,10 @@ public class EndGameState extends State {
     protected EndGameState(StateHandler sh) {
         super(sh);
     }
-    Batch batch=new SpriteBatch();
     BitmapFont font=new BitmapFont();
 
     @Override
     public void update(float gameLoopTime) {
-
-        batch.begin();
-        font.draw(batch,"GAME OVER",200,400);
-        batch.end();
+        font.draw(sh.batch,"GAME OVER",200,400);
     }
 }

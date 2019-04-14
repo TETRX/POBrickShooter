@@ -9,30 +9,31 @@ import java.awt.*;
 
 public class Block {
     float x,y,height,width;
-    Color color;
     int value;
-    Block (float x,float y, float height, float width, int value){
+    WaitState ws;
+    Block (float x,float y, float height, float width, int value, WaitState ws){
         this.x=x;
         this.y=y;
         this.height=height;
         this.width=width;
         this.value=value;
+        this.ws=ws;
+        shapeRenderer=new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(ws.sh.batch.getProjectionMatrix());
     }
-    ShapeRenderer shapeRenderer=new ShapeRenderer();
-    Batch batch=new SpriteBatch();
+    ShapeRenderer shapeRenderer;
     BitmapFont font=new BitmapFont();
 
 
     public int render(){
         if(value>0){
+            ws.sh.batch.end();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(1,0,0,0);
             shapeRenderer.rect(x,y,height,width);
             shapeRenderer.end();
-            batch.begin();
-            font.draw(batch,String.valueOf(value),x+height/2,y+width/2);
-            batch.end();
-
+            ws.sh.batch.begin();
+            font.draw(ws.sh.batch,String.valueOf(value),x+height/2,y+width/2);
             return 1;
         }
         return 0;

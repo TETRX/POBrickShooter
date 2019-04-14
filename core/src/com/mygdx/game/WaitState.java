@@ -14,9 +14,11 @@ public class WaitState extends State {
     protected WaitState(StateHandler sh) {
         super(sh);
         this.sh=sh;
+        shapeRenderer=new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(sh.batch.getProjectionMatrix());
         createBlocks();
     }
-    ShapeRenderer shapeRenderer=new ShapeRenderer();
+    ShapeRenderer shapeRenderer;
     StateHandler sh;
     Vector2 start=new Vector2(400,10);
     Vector2 destination=new Vector2();
@@ -39,7 +41,7 @@ public class WaitState extends State {
         float height= allBlocksHeight /5f;
         for(int i=0;i<5;i++){
             for(int j=0;j<5;j++){
-                arrOfBlocks[i][j]=new Block(allBlocksX+i*width+2,allBlocksY+j*height+2,width-4,height-4,1);
+                arrOfBlocks[i][j]=new Block(allBlocksX+i*width+2,allBlocksY+j*height+2,width-4,height-4,1,this);
             }
         }
 
@@ -54,11 +56,13 @@ public class WaitState extends State {
                 arrOfBlocks[i][j].render();
             }
         }
+        sh.batch.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1,1,1,0);
         shapeRenderer.circle(Gdx.graphics.getWidth()/2f,5,15);
         shapeRenderer.line(Gdx.graphics.getWidth()/2f,0,Gdx.input.getX(),Gdx.graphics.getHeight()-Gdx.input.getY());
         shapeRenderer.end();
+        sh.batch.begin();
         if(sh==null){
             System.out.println("sh");
         }

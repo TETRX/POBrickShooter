@@ -24,7 +24,9 @@ public class MenuState extends State {
     }
     @Override
     public void update(float gameLoopTime) {
+        sh.batch.end();
         stage.draw();
+        sh.batch.begin();
         if(newGame.getClickListener().isPressed()){
             sh.add(new TransitionState(sh));
         }
