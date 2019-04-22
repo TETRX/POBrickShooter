@@ -23,6 +23,8 @@ public class Bullet {
         bulletVelocity.clamp(550,550);
     }
 
+    public void faster(){bulletVelocity.clamp(1000,1000);}
+
     public int update(float gameLoopTime) {
         bulletPosition.mulAdd(bulletVelocity,gameLoopTime);
         if(bulletPosition.x<=0 || bulletPosition.x>= Gdx.graphics.getWidth())
@@ -37,7 +39,7 @@ public class Bullet {
             for(int j=0;j<5;j++){
                 if(bulletPosition.x+radius > ws.allBlocksX+i*width && bulletPosition.x+radius<ws.allBlocksX+(i+1)*width && bulletPosition.y+radius>ws.allBlocksY+j*height && bulletPosition.y+radius<ws.allBlocksY+(j+1)*height && ws.arrOfBlocks[i][j].value>0){
                     ws.arrOfBlocks[i][j].decrease();
-                    System.out.println(bulletPosition+" "+i+" "+j);
+                   // System.out.println(bulletPosition+" "+i+" "+j);
                     if(bulletPosition.x+radius-10 < ws.allBlocksX+i*width || bulletPosition.x+radius+10 > ws.allBlocksX+(i+1)*width )
                         bulletVelocity.x=-bulletVelocity.x;
                     if(bulletPosition.y+radius-10 < ws.allBlocksY+j*height || bulletPosition.y+radius+10 > ws.allBlocksY+(j+1)*height)

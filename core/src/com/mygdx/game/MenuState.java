@@ -16,6 +16,7 @@ public class MenuState extends State {
         this.sh=sh;
         stage= new Stage();
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
+       // skin=new Skin(Gdx.files.internal("uiskin.json"));
         newGame = new TextButton("New Game", skin);
         newGame.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*4f/6f);
         newGame.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);

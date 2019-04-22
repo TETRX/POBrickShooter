@@ -2,11 +2,16 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static java.lang.Thread.sleep;
 
@@ -17,6 +22,7 @@ public class WaitState extends State {
         shapeRenderer=new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(sh.batch.getProjectionMatrix());
         createBlocks();
+        createButtons();
     }
     ShapeRenderer shapeRenderer;
     StateHandler sh;
@@ -25,13 +31,15 @@ public class WaitState extends State {
     Vector2 velocity;
     List<Bullet> listOfBullets=new ArrayList<Bullet>();
     Block [][] arrOfBlocks=new Block[5][5];
-    int round=0;
+    int round=1;
+    int result=0;
+    Random rand = new Random();
 
     float allBlocksX;
     float allBlocksY;
     float allBlocksHeight;
     float allBlocksWidth;
-
+    BitmapFont font=new BitmapFont();
     void createBlocks(){
         allBlocksX=Gdx.graphics.getWidth()/16f; //50
         allBlocksY=Gdx.graphics.getHeight()/3f;
@@ -41,8 +49,38 @@ public class WaitState extends State {
         float height= allBlocksHeight /5f;
         for(int i=0;i<5;i++){
             for(int j=0;j<5;j++){
-                arrOfBlocks[i][j]=new Block(allBlocksX+i*width+2,allBlocksY+j*height+2,width-4,height-4,1,this);
+                arrOfBlocks[i][j]=new Block(allBlocksX+i*width+2,allBlocksY+j*height+2,width-4,height-4,0,this);
+                if(j==4) arrOfBlocks[i][j].value=rand.nextInt(2);
             }
+        }
+
+    }
+
+    Stage stage;
+    Skin skin;
+    TextButton endGame;
+    void createButtons(){
+        stage= new Stage();
+        skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
+        // skin=new Skin(Gdx.files.internal("uiskin.json"));
+        endGame = new TextButton("End Game", skin);
+        endGame.setPosition(15,Gdx.graphics.getHeight()-45);
+        endGame.setSize(90,30);
+        stage.addActor(endGame);
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    void render(){
+       // sh.batch.begin();
+
+        font.draw(sh.batch,"round: "+String.valueOf(round),Gdx.graphics.getWidth()-90,Gdx.graphics.getHeight()-20);
+        font.draw(sh.batch,"result: "+String.valueOf(result),Gdx.graphics.getWidth()-90,Gdx.graphics.getHeight()-40);
+        sh.batch.end();
+        stage.draw();
+        sh.batch.begin();
+        if(endGame.getClickListener().isPressed()){
+            System.out.println("endGame");
+            sh.add(new EndGameState(sh));
         }
 
     }
@@ -50,6 +88,8 @@ public class WaitState extends State {
 
     @Override
     public void update(float gameLoopTime) {
+        render();
+
         start.set(Gdx.graphics.getWidth()/2f,10);
         for(int i=0;i<5;i++){
             for(int j=0;j<5;j++){
@@ -78,7 +118,7 @@ public class WaitState extends State {
                         x.set(start.mulAdd(velocity,i),velocity);
                         i-=0.1;
                     }
-                    sh.add(new PlayState(sh,this));
+                    sh.add(new PlayState(sh,this,round));
             }
     }
 }

@@ -40,6 +40,6 @@ public class Block {
     }
 
     public void decrease(){
-        value--;
+        value--;ws.result++;
     }
 }
