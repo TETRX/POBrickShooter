@@ -100,24 +100,25 @@ public class WaitState extends State {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1,1,1,0);
         shapeRenderer.circle(Gdx.graphics.getWidth()/2f,5,15);
-        shapeRenderer.line(Gdx.graphics.getWidth()/2f,0,Gdx.input.getX(),Gdx.graphics.getHeight()-Gdx.input.getY());
+        if(Gdx.input.getY() < Gdx.graphics.getHeight()-35)
+             shapeRenderer.line(Gdx.graphics.getWidth()/2f,0,Gdx.input.getX(),Gdx.graphics.getHeight()-Gdx.input.getY());
         shapeRenderer.end();
         sh.batch.begin();
         if(sh==null){
             System.out.println("sh");
         }
-            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Gdx.input.getY() < Gdx.graphics.getHeight()-35){
                     destination.x = Gdx.input.getX();
                     destination.y = Gdx.graphics.getHeight()-Gdx.input.getY();
-                    velocity=destination.sub(start);
+                    velocity=destination.sub(start).clamp(550,550);;
                     System.out.println("dest set"+start+"  "+destination);
                     round ++;
                     listOfBullets.add(new Bullet(this));
-                    float i=0;
+                    float i=-0.15f;
                     for(Bullet x : listOfBullets){
                         x.set(start.mulAdd(velocity,i),velocity);
-                        i-=0.1;
-                    }
+                       // i-=0.1;
+                    }System.out.println(listOfBullets.size());
                     sh.add(new PlayState(sh,this,round));
             }
     }

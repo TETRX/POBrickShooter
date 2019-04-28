@@ -76,6 +76,10 @@ public class PlayState extends State {
                 for(int i=0;i<5;i++)
                     ws.arrOfBlocks[i][4].value=round*rand.nextInt(3)*rand.nextInt(2);
 
+            for(Bullet b : ws.listOfBullets){
+                b.started=false;
+            }
+
             sh.remove(this);
         }
 
