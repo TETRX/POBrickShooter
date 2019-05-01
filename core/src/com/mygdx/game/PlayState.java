@@ -63,18 +63,33 @@ public class PlayState extends State {
         for(Bullet b : ws.listOfBullets){
             bulletsInGame+=b.update(gameLoopTime);
         }
+
+        if(bulletsInGame>=10000){
+            for(int i=0;i<bulletsInGame/10000;i++)
+                ws.listOfBullets.add(new Bullet(ws,new Vector2(200,-10),new Vector2(0,0),true));
+        }
+
+
         if(bulletsInGame==0){
             for(int i=0;i<5;i++){
                 if(ws.arrOfBlocks[i][0].value != 0)
                     sh.add(new EndGameState(sh));
             }
 
+
                 for(int i=0;i<4;i++){
-                    for(int j=0;j<5;j++)
-                        ws.arrOfBlocks[j][i].value=ws.arrOfBlocks[j][i+1].value;
+                    for(int j=0;j<5;j++) {
+                        ws.arrOfBlocks[j][i].value = ws.arrOfBlocks[j][i + 1].value;
+                        ws.arrOfBlocks[j][i].special = ws.arrOfBlocks[j][i + 1].special;
+                    }
                 }
-                for(int i=0;i<5;i++)
+                for(int i=0;i<5;i++){
                     ws.arrOfBlocks[i][4].value=round*rand.nextInt(3)*rand.nextInt(2);
+                    ws.arrOfBlocks[i][4].special=0;
+                }
+                int i= rand.nextInt(4);
+                ws.arrOfBlocks[i][4].special=1;
+                ws.arrOfBlocks[i][4].value=0;
 
             for(Bullet b : ws.listOfBullets){
                 b.started=false;

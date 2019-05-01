@@ -11,6 +11,7 @@ public class Block {
     float x,y,height,width;
     int value;
     WaitState ws;
+    int special=0; //1-new bullet
     Block (float x,float y, float height, float width, int value, WaitState ws){
         this.x=x;
         this.y=y;
@@ -26,15 +27,24 @@ public class Block {
 
 
     public int render(){
-        if(value>0){
+        if(value>0 && special==0){
             ws.sh.batch.end();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(1,0,0,0);
-            shapeRenderer.rect(x,y,height,width);
+            shapeRenderer.rect(x+2,y+2,height-4,width-4);
             shapeRenderer.end();
             ws.sh.batch.begin();
             font.draw(ws.sh.batch,String.valueOf(value),x+height/2,y+width/2);
             return 1;
+        }
+        if(special==1){
+            ws.sh.batch.end();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(0,0,1,0);
+            shapeRenderer.circle(x+height/2,y+width/2,15);
+            shapeRenderer.end();
+            ws.sh.batch.begin();
+
         }
         return 0;
     }

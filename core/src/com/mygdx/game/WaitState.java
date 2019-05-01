@@ -5,9 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ public class WaitState extends State {
         shapeRenderer.setProjectionMatrix(sh.batch.getProjectionMatrix());
         createBlocks();
         createButtons();
+        listOfBullets.add(new Bullet(this));
     }
     ShapeRenderer shapeRenderer;
     StateHandler sh;
@@ -49,7 +52,7 @@ public class WaitState extends State {
         float height= allBlocksHeight /5f;
         for(int i=0;i<5;i++){
             for(int j=0;j<5;j++){
-                arrOfBlocks[i][j]=new Block(allBlocksX+i*width+2,allBlocksY+j*height+2,width-4,height-4,0,this);
+                arrOfBlocks[i][j]=new Block(allBlocksX+i*width,allBlocksY+j*height,width,height,0,this);
                 if(j==4) arrOfBlocks[i][j].value=rand.nextInt(2);
             }
         }
@@ -68,6 +71,7 @@ public class WaitState extends State {
         endGame.setSize(90,30);
         stage.addActor(endGame);
         Gdx.input.setInputProcessor(stage);
+
     }
 
     void render(){
@@ -84,6 +88,7 @@ public class WaitState extends State {
         }
 
     }
+
 
 
     @Override
@@ -104,21 +109,16 @@ public class WaitState extends State {
              shapeRenderer.line(Gdx.graphics.getWidth()/2f,0,Gdx.input.getX(),Gdx.graphics.getHeight()-Gdx.input.getY());
         shapeRenderer.end();
         sh.batch.begin();
-        if(sh==null){
-            System.out.println("sh");
-        }
-            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Gdx.input.getY() < Gdx.graphics.getHeight()-35){
+           if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Gdx.input.getY() < Gdx.graphics.getHeight()-35){
+
                     destination.x = Gdx.input.getX();
                     destination.y = Gdx.graphics.getHeight()-Gdx.input.getY();
-                    velocity=destination.sub(start).clamp(550,550);;
-                    System.out.println("dest set"+start+"  "+destination);
+                    velocity=destination.sub(start).clamp(550,550);
                     round ++;
-                    listOfBullets.add(new Bullet(this));
                     float i=-0.15f;
                     for(Bullet x : listOfBullets){
                         x.set(start.mulAdd(velocity,i),velocity);
-                       // i-=0.1;
-                    }System.out.println(listOfBullets.size());
+                    }
                     sh.add(new PlayState(sh,this,round));
             }
     }
