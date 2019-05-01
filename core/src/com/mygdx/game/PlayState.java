@@ -36,7 +36,7 @@ public class PlayState extends State {
     Skin skin;
     TextButton faster;
     void createButtons(){
-        stage= new Stage();
+        stage= ws.stage;
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
         // skin=new Skin(Gdx.files.internal("uiskin.json"));
         faster = new TextButton(">>>", skin);
@@ -72,8 +72,11 @@ public class PlayState extends State {
 
         if(bulletsInGame==0){
             for(int i=0;i<5;i++){
-                if(ws.arrOfBlocks[i][0].value != 0)
-                    sh.add(new EndGameState(sh));
+                if(ws.arrOfBlocks[i][0].value != 0){
+                    sh.remove(this);
+                    ws.save(new WaitState(sh));
+                }
+
             }
 
 

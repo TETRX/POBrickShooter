@@ -6,8 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Block {
+public class Block implements Serializable {
     float x,y,height,width;
     int value;
     WaitState ws;
@@ -21,9 +22,15 @@ public class Block {
         this.ws=ws;
         shapeRenderer=new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(ws.sh.batch.getProjectionMatrix());
+        font=ws.font;
     }
-    ShapeRenderer shapeRenderer;
-    BitmapFont font=new BitmapFont();
+
+  transient  ShapeRenderer shapeRenderer;
+   transient BitmapFont font;
+   void continueGame(){
+       font=ws.font;
+       shapeRenderer=new ShapeRenderer();
+   }
 
 
     public int render(){

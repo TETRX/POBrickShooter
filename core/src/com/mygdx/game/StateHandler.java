@@ -16,6 +16,10 @@ public class StateHandler extends Vector<State> {
 
     public void update(float gameLoopTime){
         lastElement().update(gameLoopTime);
+        if(size()>10){
+            remove(0);
+        }
+       // System.out.println(size());
     }
 
     public void set(State state) {

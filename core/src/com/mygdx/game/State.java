@@ -10,5 +10,6 @@ public abstract class State {
     protected State(StateHandler sh){
         this.sh=sh;
     }
+    State(){}
     public abstract void update(float gameLoopTime); //a method that updates the state, takes float value of time passed
 }                                                    // in an instance of a game loop to compensate for differences in speed of different machines

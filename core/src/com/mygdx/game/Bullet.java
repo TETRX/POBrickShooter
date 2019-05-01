@@ -4,15 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
+import java.io.Serializable;
+
 import static com.badlogic.gdx.math.MathUtils.floor;
 
-public class Bullet {
+public class Bullet implements Serializable {
     static final float radius = 15F;
     Vector2 bulletPosition;
     Vector2 bulletVelocity;
     WaitState ws;
     boolean started=false;
-    ShapeRenderer shapeRenderer=new ShapeRenderer();
+    transient ShapeRenderer shapeRenderer=new ShapeRenderer();
     public Bullet(WaitState ws){this.ws=ws;}
 
     public Bullet(WaitState ws,Vector2 start, Vector2 velocity,boolean started){
@@ -25,6 +27,10 @@ public class Bullet {
         bulletPosition=new Vector2(pos.x,pos.y);
         bulletVelocity=new Vector2(velocity.x, velocity.y);
         bulletVelocity.clamp(550,550);
+    }
+
+    void continueGame(){
+        shapeRenderer=new ShapeRenderer();
     }
 
     public void faster(){bulletVelocity.clamp(1000,1000);}
