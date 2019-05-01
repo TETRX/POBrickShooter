@@ -9,14 +9,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import java.io.*;
+
 
 public class EndGameState extends State {
     Stage stage;
     Skin skin;
     Button newGame;
+    Integer result,round,bestResult=0;
 
-    protected EndGameState(StateHandler sh) {
+    protected EndGameState(StateHandler sh,int result, int round) {
         super(sh);
+        this.result=result;
+        this.round=round;
         stage= new Stage();
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
         // skin=new Skin(Gdx.files.internal("uiskin.json"));
@@ -30,11 +35,46 @@ public class EndGameState extends State {
 
     @Override
     public void update(float gameLoopTime) {
-        font.draw(sh.batch,"GAME OVER",320,150);
+        font.draw(sh.batch,"GAME OVER",320,300);
+
+        FileInputStream fileIS=null;
+        ObjectInputStream inputStream = null;
+        try {
+            fileIS=new FileInputStream("bestScore.txt");
+            inputStream = new ObjectInputStream(fileIS);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            bestResult=(Integer)inputStream.readObject();
+            fileIS.close();
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        font.draw(sh.batch,"your result: "+result+" round: "+round+" best score: "+bestResult,320,200);
+
+
+        if(result>bestResult) {
+            System.out.println("best");
+            ObjectOutputStream outputStream = null;
+            try {
+                FileOutputStream fileOS = new FileOutputStream("bestScore.txt");
+                outputStream = new ObjectOutputStream(fileOS);
+                outputStream.writeObject(result);
+                fileOS.close();
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         sh.batch.end();
         stage.draw();
         sh.batch.begin();
         if(newGame.getClickListener().isPressed()){
+            System.out.println("setgbhsdgtbsgf");
             sh.add(new MenuState(sh));
         }
     }

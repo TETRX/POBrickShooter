@@ -74,7 +74,9 @@ public class PlayState extends State {
             for(int i=0;i<5;i++){
                 if(ws.arrOfBlocks[i][0].value != 0){
                     sh.remove(this);
+
                     ws.save(new WaitState(sh));
+                    sh.add(new EndGameState(sh,ws.result,ws.round));
                 }
 
             }

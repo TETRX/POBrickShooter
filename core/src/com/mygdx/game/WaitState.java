@@ -30,9 +30,7 @@ public class WaitState extends State implements Serializable {
         createButtons();
         listOfBullets.add(new Bullet(this));
     }
-    WaitState(){
 
-    }
     transient ShapeRenderer shapeRenderer;
    transient StateHandler sh;
     Vector2 start=new Vector2(400,10);
@@ -101,6 +99,7 @@ public class WaitState extends State implements Serializable {
         stage.draw();
         sh.batch.begin();
         if(endGame.getClickListener().isPressed()){
+            sh.add(new EndGameState(sh,result,round));
                 save(this);
             System.out.println("endGame");
             return true;
@@ -109,7 +108,7 @@ public class WaitState extends State implements Serializable {
     }
 
     void save(WaitState ws){
-        sh.add(new EndGameState(sh));
+
         ObjectOutputStream outputStream = null;
         try {
             FileOutputStream fileOS=new FileOutputStream("lastGame.txt");
