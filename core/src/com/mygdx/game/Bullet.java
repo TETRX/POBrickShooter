@@ -36,6 +36,8 @@ public class Bullet implements Serializable {
     public void faster(){bulletVelocity.clamp(1000,1000);}
 
     public int update(float gameLoopTime) {
+        if(Math.abs(bulletVelocity.y)<2)
+            bulletVelocity.y*=2;
 
         Vector2 oldPosition=new Vector2(bulletPosition);
         bulletPosition.mulAdd(bulletVelocity,gameLoopTime);
@@ -49,7 +51,7 @@ public class Bullet implements Serializable {
             return 1;
         if((bulletPosition.x-radius<0 && bulletVelocity.x<0) || (bulletPosition.x> Gdx.graphics.getWidth()-radius && bulletVelocity.x>0))
             bulletVelocity.x=-bulletVelocity.x;
-        if(bulletPosition.y>=Gdx.graphics.getHeight()-radius)
+        if(bulletPosition.y>=Gdx.graphics.getHeight()-radius && bulletVelocity.y>0)
             bulletVelocity.y=-bulletVelocity.y;
 
 
@@ -59,7 +61,6 @@ public class Bullet implements Serializable {
         int i=floor((bulletPosition.x-ws.allBlocksX)/width);
         int j=floor((bulletPosition.y-ws.allBlocksY)/height);
         if(i>=0 && i<5 && j>=0 && j<5 && ws.arrOfBlocks[i][j].special== 1){
-            System.out.println("special box");
             if(Math.abs(bulletPosition.x-(ws.arrOfBlocks[i][j].x+ws.arrOfBlocks[i][j].height/2))<2*radius && Math.abs(bulletPosition.y-(ws.arrOfBlocks[i][j].y+ws.arrOfBlocks[i][j].width/2))<2*radius){
                 ws.arrOfBlocks[i][j].special=0;
                 return 10000;
@@ -71,18 +72,14 @@ public class Bullet implements Serializable {
                      j=floor((bulletPosition.y+radius-ws.allBlocksY)/height);
                     if(i>=0 && i<5 && j>=0 && j<5 && ws.arrOfBlocks[i][j].value > 0) {
                         ws.arrOfBlocks[i][j].decrease();
-                        System.out.println(bulletPosition);
-                        System.out.println(oldPosition);
                         if ( oldPosition.x + radius  -1< ws.arrOfBlocks[i][j].x ){
                             bulletVelocity.x = -bulletVelocity.x;
-                            bulletPosition.x= ws.arrOfBlocks[i][j].x -radius;
-                            System.out.println("lewo");
+                           // bulletPosition.x= ws.arrOfBlocks[i][j].x -radius;
                         }
 
                          if ( oldPosition.y + radius -1 < ws.arrOfBlocks[i][j].y ){
                             bulletVelocity.y = -bulletVelocity.y;
-                            bulletPosition.y=ws.arrOfBlocks[i][j].y -radius;
-                            System.out.println("dol");
+                           // bulletPosition.y=ws.arrOfBlocks[i][j].y -radius;
                         }
 
                     }
@@ -92,17 +89,13 @@ public class Bullet implements Serializable {
                         j = floor((bulletPosition.y - radius - ws.allBlocksY) / height);
                         if (i >= 0 && i < 5 && j >= 0 && j < 5 && ws.arrOfBlocks[i][j].value > 0) {
                             ws.arrOfBlocks[i][j].decrease();
-                            System.out.println(bulletPosition);
-                            System.out.println(oldPosition);
                             if (oldPosition.x - radius +1 > ws.arrOfBlocks[i][j].x + width) {
                                 bulletVelocity.x = -bulletVelocity.x;
-                                bulletPosition.x = ws.arrOfBlocks[i][j].x + width + radius;
-                                System.out.println("prawo");
+                               // bulletPosition.x = ws.arrOfBlocks[i][j].x + width + radius;
                             }
                             if (oldPosition.y - radius +1 > ws.arrOfBlocks[i][j].y + height) {
                                 bulletVelocity.y = -bulletVelocity.y;
-                                bulletPosition.y = ws.arrOfBlocks[i][j].y + height + radius;
-                                System.out.println("gora");
+                               // bulletPosition.y = ws.arrOfBlocks[i][j].y + height + radius;
                             }
 
                         }
@@ -114,17 +107,13 @@ public class Bullet implements Serializable {
                             j = floor((bulletPosition.y - radius - ws.allBlocksY) / height);
                             if(i>=0 && i<5 && j>=0 && j<5 && ws.arrOfBlocks[i][j].value > 0) {
                                 ws.arrOfBlocks[i][j].decrease();
-                                System.out.println(bulletPosition);
-                                System.out.println(oldPosition);
                                 if ( oldPosition.x + radius  -1< ws.arrOfBlocks[i][j].x ){
                                     bulletVelocity.x = -bulletVelocity.x;
-                                    bulletPosition.x= ws.arrOfBlocks[i][j].x -radius;
-                                    System.out.println("lewo");
+                                    //bulletPosition.x= ws.arrOfBlocks[i][j].x -radius;
                                 }
                                 if( oldPosition.y - radius +1> ws.arrOfBlocks[i][j].y + height){
                                     bulletVelocity.y = -bulletVelocity.y;
-                                    bulletPosition.y=ws.arrOfBlocks[i][j].y + height + radius;
-                                    System.out.println("gora");
+                                    //bulletPosition.y=ws.arrOfBlocks[i][j].y + height + radius;
                                 }
 
                             }
@@ -135,17 +124,13 @@ public class Bullet implements Serializable {
                                 j = floor((bulletPosition.y + radius - ws.allBlocksY) / height);
                                 if(i>=0 && i<5 && j>=0 && j<5 && ws.arrOfBlocks[i][j].value > 0) {
                                     ws.arrOfBlocks[i][j].decrease();
-                                    System.out.println(bulletPosition);
-                                    System.out.println(oldPosition);
                                     if ( oldPosition.x - radius  +1> ws.arrOfBlocks[i][j].x+width){
                                         bulletVelocity.x = -bulletVelocity.x;
-                                        bulletPosition.x=ws.arrOfBlocks[i][j].x+width + radius;
-                                        System.out.println("prawo");
+                                       // bulletPosition.x=ws.arrOfBlocks[i][j].x+width + radius;
                                     }
                                     if ( oldPosition.y + radius  -1< ws.arrOfBlocks[i][j].y ){
                                         bulletVelocity.y = -bulletVelocity.y;
-                                        bulletPosition.y=ws.arrOfBlocks[i][j].y -radius;
-                                        System.out.println("dol");
+                                        //bulletPosition.y=ws.arrOfBlocks[i][j].y -radius;
                                     }
 
                                 }

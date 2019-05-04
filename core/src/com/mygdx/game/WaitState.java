@@ -10,10 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,6 +26,7 @@ public class WaitState extends State implements Serializable {
         createBlocks();
         createButtons();
         listOfBullets.add(new Bullet(this));
+        save(this);
     }
 
     transient ShapeRenderer shapeRenderer;
@@ -79,17 +77,22 @@ public class WaitState extends State implements Serializable {
    transient Stage stage;
    transient Skin skin;
    transient TextButton endGame;
+    transient TextButton removeLastMove;
     void createButtons(){
-        stage= new Stage();
+        stage= sh.stage;
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
         // skin=new Skin(Gdx.files.internal("uiskin.json"));
         endGame = new TextButton("End Game", skin);
         endGame.setPosition(15,Gdx.graphics.getHeight()-45);
         endGame.setSize(90,30);
         stage.addActor(endGame);
+        removeLastMove = new TextButton("Remove move", skin);
+        removeLastMove.setPosition(130,Gdx.graphics.getHeight()-45);
+        removeLastMove.setSize(90,30);
+        stage.addActor(removeLastMove);
         Gdx.input.setInputProcessor(stage);
     }
-
+boolean canPlay=false;
     boolean render(){
        // sh.batch.begin();
 
@@ -100,9 +103,40 @@ public class WaitState extends State implements Serializable {
         sh.batch.begin();
         if(endGame.getClickListener().isPressed()){
             sh.add(new EndGameState(sh,result,round));
-                save(this);
+                //save(this);
             System.out.println("endGame");
             return true;
+        }
+        if(removeLastMove.getClickListener().isPressed() && canPlay){
+            canPlay=false;
+            sh.remove(this);
+            System.out.println("rm");
+            WaitState waitState=null;
+            FileInputStream fileIS=null;
+            ObjectInputStream inputStream = null;
+            try {
+                fileIS=new FileInputStream("lastGame.txt");
+                inputStream = new ObjectInputStream(fileIS);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                waitState=(WaitState)inputStream.readObject();
+                fileIS.close();
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            waitState.sh=sh;
+            waitState.continueGame();
+           // sh.remove(this);
+            sh.add(waitState);
+            waitState.canPlay=false;
+
+
         }
         return false;
     }
@@ -129,6 +163,14 @@ public class WaitState extends State implements Serializable {
     @Override
     public void update(float gameLoopTime) {
     render();
+    if(!canPlay){
+        try {
+            sleep(400);
+            canPlay=true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
         start.set(Gdx.graphics.getWidth()/2f,10);
         for(int i=0;i<5;i++){
@@ -144,11 +186,12 @@ public class WaitState extends State implements Serializable {
              shapeRenderer.line(Gdx.graphics.getWidth()/2f,0,Gdx.input.getX(),Gdx.graphics.getHeight()-Gdx.input.getY());
         shapeRenderer.end();
         sh.batch.begin();
-           if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Gdx.input.getY() < Gdx.graphics.getHeight()-35){
+           if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Gdx.input.getY() < Gdx.graphics.getHeight()-35 && canPlay){
                if(render())
                    return;
-               System.out.println(Gdx.input.getX());
-               System.out.println(Gdx.input.getY());
+              // save(this);
+               //System.out.println(Gdx.input.getX());
+               //System.out.println(Gdx.input.getY());
                     destination.x = Gdx.input.getX();
                     destination.y = Gdx.graphics.getHeight()-Gdx.input.getY();
                     velocity=destination.sub(start).clamp(550,550);

@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.Vector;
 
@@ -9,9 +10,11 @@ import java.util.Vector;
 public class StateHandler extends Vector<State> {
 
     Batch batch;
+    Stage stage;
 
     StateHandler(Batch batch){
         this.batch=batch;
+        stage=new Stage();
     }
 
     public void update(float gameLoopTime){

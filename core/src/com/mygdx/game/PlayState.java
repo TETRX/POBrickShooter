@@ -99,6 +99,7 @@ public class PlayState extends State {
             for(Bullet b : ws.listOfBullets){
                 b.started=false;
             }
+            ws.save(ws);
 
             sh.remove(this);
         }
