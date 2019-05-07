@@ -142,7 +142,7 @@ public class Bullet implements Serializable {
 
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1,1,1,0);
+        shapeRenderer.setColor(ws.sh.settings.bulletColor);
         shapeRenderer.circle(bulletPosition.x,bulletPosition.y,radius);
         shapeRenderer.end();
         return 1;

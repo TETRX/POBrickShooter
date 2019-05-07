@@ -1,10 +1,13 @@
 package com.mygdx.game;
 
+//A State class to prevent unintentional clicks in-between states
 
 public class TransitionState extends State {
-    protected TransitionState(StateHandler sh) {
+    State nextState;
+    protected TransitionState(StateHandler sh, State nextState) {
         super(sh);
         this.sh=sh;
+        this.nextState=nextState;
     }
     private float countdown;
     @Override
@@ -12,7 +15,7 @@ public class TransitionState extends State {
         countdown+=gameLoopTime;
         if(countdown>0.1){
             countdown=0;
-            sh.add(new WaitState(sh));
+            sh.add(nextState);
         }
     }
 }

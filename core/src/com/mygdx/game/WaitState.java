@@ -180,7 +180,7 @@ boolean canPlay=false;
         }
         sh.batch.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1,1,1,0);
+        shapeRenderer.setColor(sh.settings.bulletColor);
         shapeRenderer.circle(Gdx.graphics.getWidth()/2f,5,15);
         if(Gdx.input.getY() < Gdx.graphics.getHeight()-35)
              shapeRenderer.line(Gdx.graphics.getWidth()/2f,0,Gdx.input.getX(),Gdx.graphics.getHeight()-Gdx.input.getY());

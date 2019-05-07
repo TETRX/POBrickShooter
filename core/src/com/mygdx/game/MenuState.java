@@ -19,6 +19,7 @@ public class MenuState extends State {
     Skin skin;
     Button newGame;
     Button continueGame;
+    Button settings;
     protected MenuState(StateHandler sh) {
         super(sh);
         this.sh=sh;
@@ -33,6 +34,10 @@ public class MenuState extends State {
         continueGame.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*2f/6f);
         continueGame.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);
         stage.addActor(continueGame);
+        settings = new TextButton("Settings", skin);
+        settings.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*3f/6f);
+        settings.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);
+        stage.addActor(settings);
         Gdx.input.setInputProcessor(stage);
     }
     @Override
@@ -42,7 +47,7 @@ public class MenuState extends State {
         sh.batch.begin();
         if(newGame.getClickListener().isPressed()){
             sh.remove(this);
-            sh.add(new TransitionState(sh));
+            sh.add(new TransitionState(sh,new WaitState(sh)));
         }
         if(continueGame.getClickListener().isPressed()){
             try {
@@ -72,8 +77,12 @@ public class MenuState extends State {
             waitState.sh=sh;
             waitState.continueGame();
             sh.remove(this);
-            sh.add(waitState);
+            sh.add(new TransitionState(sh,waitState));
 
+        }
+        if(settings.getClickListener().isPressed()){
+            sh.remove(this);
+            sh.add(new TransitionState(sh,new SettingsState(sh)));
         }
     }
 }

@@ -37,7 +37,7 @@ public class Block implements Serializable {
         if(value>0 && special==0){
             ws.sh.batch.end();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(1,0,0,0);
+            shapeRenderer.setColor(ws.sh.settings.brickColor);
             shapeRenderer.rect(x+2,y+2,height-4,width-4);
             shapeRenderer.end();
             ws.sh.batch.begin();
@@ -47,7 +47,7 @@ public class Block implements Serializable {
         if(special==1){
             ws.sh.batch.end();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(0,0,1,0);
+            shapeRenderer.setColor(ws.sh.settings.bulletColor);
             shapeRenderer.circle(x+height/2,y+width/2,15);
             shapeRenderer.end();
             ws.sh.batch.begin();

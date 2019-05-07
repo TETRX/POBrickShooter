@@ -11,10 +11,14 @@ public class StateHandler extends Vector<State> {
 
     Batch batch;
     Stage stage;
-
+    Settings settings = new Settings();
     StateHandler(Batch batch){
         this.batch=batch;
         stage=new Stage();
+    }
+
+    public void setSettings(Settings settings){
+        this.settings=settings;
     }
 
     public void update(float gameLoopTime){
