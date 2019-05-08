@@ -13,7 +13,7 @@ public class TransitionState extends State {
     @Override
     public void update(float gameLoopTime) {
         countdown+=gameLoopTime;
-        if(countdown>0.1){
+        if(countdown>0.2){
             countdown=0;
             sh.add(nextState);
         }

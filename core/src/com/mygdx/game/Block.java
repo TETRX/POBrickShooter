@@ -1,11 +1,8 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import java.awt.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.io.Serializable;
 
 public class Block implements Serializable {
@@ -52,6 +49,14 @@ public class Block implements Serializable {
             shapeRenderer.end();
             ws.sh.batch.begin();
 
+        }
+        if(special==2){
+            ws.sh.batch.end();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(ws.sh.settings.bulletColor);
+            shapeRenderer.circle(x+height/2,y+width/2,15);
+            shapeRenderer.end();
+            ws.sh.batch.begin();
         }
         return 0;
     }

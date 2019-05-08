@@ -40,6 +40,7 @@ public class WaitState extends State implements Serializable {
     int result=0;
     Random rand = new Random();
 
+
     float allBlocksX;
     float allBlocksY;
     float allBlocksHeight;
@@ -60,7 +61,7 @@ public class WaitState extends State implements Serializable {
    }
     void createBlocks(){
         allBlocksX=Gdx.graphics.getWidth()/16f; //50
-        allBlocksY=Gdx.graphics.getHeight()/3f;
+        allBlocksY=Gdx.graphics.getHeight()/4f;
         allBlocksHeight =Gdx.graphics.getHeight()/2f;
         allBlocksWidth=Gdx.graphics.getWidth()*7f/8f;
         float width=allBlocksWidth/5f;
@@ -78,6 +79,7 @@ public class WaitState extends State implements Serializable {
    transient Skin skin;
    transient TextButton endGame;
     transient TextButton removeLastMove;
+    WaitState myThis=this;
     void createButtons(){
         stage= sh.stage;
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
@@ -86,62 +88,75 @@ public class WaitState extends State implements Serializable {
         endGame.setPosition(15,Gdx.graphics.getHeight()-45);
         endGame.setSize(90,30);
         stage.addActor(endGame);
+
+        endGame.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                if(sh.lastElement()==myThis)
+                    save(myThis);
+                sh.add(new TransitionState(sh,new EndGameState(sh,result,round)));
+            }
+
+        });
         removeLastMove = new TextButton("Remove move", skin);
         removeLastMove.setPosition(130,Gdx.graphics.getHeight()-45);
         removeLastMove.setSize(90,30);
         stage.addActor(removeLastMove);
         Gdx.input.setInputProcessor(stage);
+
+
+        removeLastMove.addListener(new ClickListener(){
+
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+               // sh.add(new TransitionState(sh,this));
+
+                System.out.println("rm");
+                WaitState waitState=null;
+                FileInputStream fileIS=null;
+                ObjectInputStream inputStream = null;
+                try {
+                    fileIS=new FileInputStream("lastGame.txt");
+                    inputStream = new ObjectInputStream(fileIS);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    waitState=(WaitState)inputStream.readObject();
+                    fileIS.close();
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                waitState.sh=sh;
+                waitState.continueGame();
+                // sh.remove(this);
+                sh.add(new TransitionState(sh,waitState));
+            }
+        });
     }
-boolean canPlay=false;
-    boolean render(){
+
+    void render(){
        // sh.batch.begin();
+        sh.batch.end();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0.2f,0.2f,0.2f,0);
+        shapeRenderer.rect(0,Gdx.graphics.getHeight()-50,Gdx.graphics.getWidth(),50);
+        shapeRenderer.end();
+        sh.batch.begin();
 
         font.draw(sh.batch,"round: "+String.valueOf(round),Gdx.graphics.getWidth()-90,Gdx.graphics.getHeight()-20);
         font.draw(sh.batch,"result: "+String.valueOf(result),Gdx.graphics.getWidth()-90,Gdx.graphics.getHeight()-40);
         sh.batch.end();
         stage.draw();
         sh.batch.begin();
-        if(endGame.getClickListener().isPressed()){
-            sh.add(new EndGameState(sh,result,round));
-                //save(this);
-            System.out.println("endGame");
-            return true;
-        }
-        if(removeLastMove.getClickListener().isPressed() && canPlay){
-            canPlay=false;
-            sh.remove(this);
-            System.out.println("rm");
-            WaitState waitState=null;
-            FileInputStream fileIS=null;
-            ObjectInputStream inputStream = null;
-            try {
-                fileIS=new FileInputStream("lastGame.txt");
-                inputStream = new ObjectInputStream(fileIS);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                waitState=(WaitState)inputStream.readObject();
-                fileIS.close();
-                inputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
 
-            waitState.sh=sh;
-            waitState.continueGame();
-           // sh.remove(this);
-            sh.add(waitState);
-            waitState.canPlay=false;
-
-
-        }
-        return false;
     }
 
-    void save(WaitState ws){
+    void save(WaitState ws){System.out.println("save");
 
         ObjectOutputStream outputStream = null;
         try {
@@ -162,15 +177,6 @@ boolean canPlay=false;
 
     @Override
     public void update(float gameLoopTime) {
-    render();
-    if(!canPlay){
-        try {
-            sleep(400);
-            canPlay=true;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
         start.set(Gdx.graphics.getWidth()/2f,10);
         for(int i=0;i<5;i++){
@@ -182,24 +188,21 @@ boolean canPlay=false;
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(sh.settings.bulletColor);
         shapeRenderer.circle(Gdx.graphics.getWidth()/2f,5,15);
-        if(Gdx.input.getY() < Gdx.graphics.getHeight()-35)
+        if(Gdx.input.getY() < Gdx.graphics.getHeight()-35 && Gdx.input.getY()>50)
              shapeRenderer.line(Gdx.graphics.getWidth()/2f,0,Gdx.input.getX(),Gdx.graphics.getHeight()-Gdx.input.getY());
         shapeRenderer.end();
         sh.batch.begin();
-           if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Gdx.input.getY() < Gdx.graphics.getHeight()-35 && canPlay){
-               if(render())
-                   return;
-              // save(this);
-               //System.out.println(Gdx.input.getX());
-               //System.out.println(Gdx.input.getY());
+        render();
+           if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Gdx.input.getY() < Gdx.graphics.getHeight()-35 && Gdx.input.getY()>50){
+
                     destination.x = Gdx.input.getX();
                     destination.y = Gdx.graphics.getHeight()-Gdx.input.getY();
                     velocity=destination.sub(start).clamp(550,550);
-                    round ++;
                     float i=-0.15f;
                     for(Bullet x : listOfBullets){
                         x.set(start.mulAdd(velocity,i),velocity);
                     }
+                    save(this);
                     sh.add(new PlayState(sh,this,round));
             }
     }

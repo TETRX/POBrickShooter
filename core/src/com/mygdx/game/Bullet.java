@@ -14,12 +14,14 @@ public class Bullet implements Serializable {
     Vector2 bulletVelocity;
     WaitState ws;
     boolean started=false;
+    boolean canMultipy=true;
     transient ShapeRenderer shapeRenderer=new ShapeRenderer();
     public Bullet(WaitState ws){this.ws=ws;}
 
-    public Bullet(WaitState ws,Vector2 start, Vector2 velocity,boolean started){
+    public Bullet(WaitState ws,Vector2 start, Vector2 velocity,boolean started,boolean canMultipy){
         this(ws);
         this.started=started;
+        this.canMultipy=canMultipy;
         set(start,velocity);
     }
 
@@ -51,7 +53,7 @@ public class Bullet implements Serializable {
             return 1;
         if((bulletPosition.x-radius<0 && bulletVelocity.x<0) || (bulletPosition.x> Gdx.graphics.getWidth()-radius && bulletVelocity.x>0))
             bulletVelocity.x=-bulletVelocity.x;
-        if(bulletPosition.y>=Gdx.graphics.getHeight()-radius && bulletVelocity.y>0)
+        if(bulletPosition.y>=Gdx.graphics.getHeight()-radius-50 && bulletVelocity.y>0)
             bulletVelocity.y=-bulletVelocity.y;
 
 
@@ -64,6 +66,14 @@ public class Bullet implements Serializable {
             if(Math.abs(bulletPosition.x-(ws.arrOfBlocks[i][j].x+ws.arrOfBlocks[i][j].height/2))<2*radius && Math.abs(bulletPosition.y-(ws.arrOfBlocks[i][j].y+ws.arrOfBlocks[i][j].width/2))<2*radius){
                 ws.arrOfBlocks[i][j].special=0;
                 return 10000;
+            }
+        }
+
+        if(i>=0 && i<5 && j>=0 && j<5 && ws.arrOfBlocks[i][j].special== 2 && canMultipy){
+            if(Math.abs(bulletPosition.x-(ws.arrOfBlocks[i][j].x+ws.arrOfBlocks[i][j].height/2))<2*radius && Math.abs(bulletPosition.y-(ws.arrOfBlocks[i][j].y+ws.arrOfBlocks[i][j].width/2))<2*radius){
+              canMultipy=false;
+               return 2;
+
             }
         }
 

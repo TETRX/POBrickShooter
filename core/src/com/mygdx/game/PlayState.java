@@ -40,7 +40,7 @@ public class PlayState extends State {
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
         // skin=new Skin(Gdx.files.internal("uiskin.json"));
         faster = new TextButton(">>>", skin);
-        faster.setPosition(15,Gdx.graphics.getHeight()-90);
+        faster.setPosition(245,Gdx.graphics.getHeight()-45);
         faster.setSize(90,30);
         stage.addActor(faster);
         Gdx.input.setInputProcessor(stage);
@@ -59,18 +59,32 @@ public class PlayState extends State {
             }
         }
         ws.render();
+        boolean ifAdd=false;
         int bulletsInGame=0;
-        for(Bullet b : ws.listOfBullets){
-            bulletsInGame+=b.update(gameLoopTime);
+        Bullet b=null;
+        for( Bullet a : ws.listOfBullets){
+            int i=a.update(gameLoopTime);
+            bulletsInGame+=i;
+                    if(i==2) {
+                        ifAdd = true;
+                        b=a;
+                        break;
+                    }
+        }
+        if(ifAdd){
+            ifAdd=false;
+            ws.listOfBullets.add(new Bullet(ws,new Vector2(b.bulletPosition.x,b.bulletPosition.y),new Vector2(-b.bulletVelocity.x,b.bulletVelocity.y),true,false));
         }
 
         if(bulletsInGame>=10000){
+
             for(int i=0;i<bulletsInGame/10000;i++)
-                ws.listOfBullets.add(new Bullet(ws,new Vector2(200,-10),new Vector2(0,0),true));
+                ws.listOfBullets.add(new Bullet(ws,new Vector2(200,-10),new Vector2(0,0),true,true));
         }
 
 
         if(bulletsInGame==0){
+            ws.round++;
             for(int i=0;i<5;i++){
                 if(ws.arrOfBlocks[i][0].value != 0){
                     sh.remove(this);
@@ -89,17 +103,36 @@ public class PlayState extends State {
                     }
                 }
                 for(int i=0;i<5;i++){
-                    ws.arrOfBlocks[i][4].value=round*rand.nextInt(3)*rand.nextInt(2);
+                    if(sh.settings.level==1)
+                        ws.arrOfBlocks[i][4].value=round*rand.nextInt(2)*rand.nextInt(2);
+                    if(sh.settings.level==2)
+                        ws.arrOfBlocks[i][4].value=round*rand.nextInt(3)*rand.nextInt(2);
+                    if(sh.settings.level==3)
+                        ws.arrOfBlocks[i][4].value=round*rand.nextInt(3);
+
                     ws.arrOfBlocks[i][4].special=0;
                 }
                 int i= rand.nextInt(4);
                 ws.arrOfBlocks[i][4].special=1;
                 ws.arrOfBlocks[i][4].value=0;
+                if (round%4==2){
+                     i= rand.nextInt(4);
+                    ws.arrOfBlocks[i][4].special=2;
+                    ws.arrOfBlocks[i][4].value=0;
+                }
 
-            for(Bullet b : ws.listOfBullets){
-                b.started=false;
+
+                int remove=0;
+            for(Bullet a : ws.listOfBullets){
+                a.started=false;
+                if(a.canMultipy==false){
+                    remove++;
+                    a.canMultipy=true;
+                }
             }
-            ws.save(ws);
+            for(int j=0;j<remove/2;j++){
+                ws.listOfBullets.remove(0);
+            }
 
             sh.remove(this);
         }

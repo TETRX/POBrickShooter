@@ -46,7 +46,6 @@ public class MenuState extends State {
         stage.draw();
         sh.batch.begin();
         if(newGame.getClickListener().isPressed()){
-            sh.remove(this);
             sh.add(new TransitionState(sh,new WaitState(sh)));
         }
         if(continueGame.getClickListener().isPressed()){

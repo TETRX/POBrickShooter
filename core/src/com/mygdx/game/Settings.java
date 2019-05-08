@@ -8,6 +8,7 @@ public class Settings {
         r.start();
     }
     //Bullet
+    int level=2;
     public static final Color defaultBulletColor = Color.WHITE;
     Color bulletColor;
     //Brick
