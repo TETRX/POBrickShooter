@@ -115,6 +115,7 @@ public class PlayState extends State {
                 int i= rand.nextInt(4);
                 ws.arrOfBlocks[i][4].special=1;
                 ws.arrOfBlocks[i][4].value=0;
+                ws.arrOfBlocks[(i+3)%5][4].value=round;
                 if (round%4==2){
                      i= rand.nextInt(4);
                     ws.arrOfBlocks[i][4].special=2;

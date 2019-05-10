@@ -10,9 +10,11 @@ import java.util.Vector;
 public class StateHandler extends Vector<State> {
 
     Batch batch;
+    EffectsHandler effectsHandler;
     Stage stage;
     Settings settings = new Settings();
-    StateHandler(Batch batch){
+    StateHandler(Batch batch, EffectsHandler effectsHandler){
+        this.effectsHandler=effectsHandler;
         this.batch=batch;
         stage=new Stage();
     }

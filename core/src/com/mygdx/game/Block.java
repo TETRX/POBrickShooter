@@ -1,8 +1,12 @@
 package com.mygdx.game;
 
-
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+
+import java.awt.*;
 import java.io.Serializable;
 
 public class Block implements Serializable {
@@ -62,6 +66,10 @@ public class Block implements Serializable {
     }
 
     public void decrease(){
-        value--;ws.result++;
+        value--;
+        ws.result++;
+        if(value==0){
+            ws.sh.effectsHandler.tempor.add(new ParticleExplosionEffect(ws.sh.effectsHandler,new Vector2(x, Gdx.graphics.getHeight()-y)));
+        }
     }
 }
