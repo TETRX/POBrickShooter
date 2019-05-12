@@ -20,7 +20,7 @@ public class SettingsState extends State{
         stage= new Stage();
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
         // skin=new Skin(Gdx.files.internal("uiskin.json"));
-        changeColours = new TextButton("Change Coluors", skin);
+        changeColours = new TextButton("Change Colours", skin);
         changeColours.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*4f/6f);
         changeColours.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);
         stage.addActor(changeColours);

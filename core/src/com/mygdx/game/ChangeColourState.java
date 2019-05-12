@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -16,7 +17,7 @@ public class ChangeColourState extends State{
     Skin skin;
     Settings beingSet;
     BitmapFont font;
-
+    ShapeRenderer shape = new ShapeRenderer();
     //Sliders
     Slider []back=new Slider[4];
     Slider []bullet=new Slider[4];
@@ -29,7 +30,6 @@ public class ChangeColourState extends State{
     }
 
     private void setButton(Button button,  float x, float y){
-
         button.setPosition(x,y);
         button.setSize((float)Gdx.graphics.getWidth()/10,(float) Gdx.graphics.getHeight()/10);
         stage.addActor(button);
@@ -83,33 +83,46 @@ public class ChangeColourState extends State{
         apply=new TextButton("Apply",skin);
         setButton(apply,(float) Gdx.graphics.getWidth()*17/20,(float)Gdx.graphics.getHeight()/40);
         Gdx.input.setInputProcessor(stage);
+        shape.setAutoShapeType(true);
     }
     @Override
     public void update(float gameLoopTime) {
         sh.batch.end();
         stage.draw();
         sh.batch.begin();
-        font.draw(sh.batch,"Background Red", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*27/28);
-        font.draw(sh.batch,"Background Green", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*25/28);
-        font.draw(sh.batch,"Background Blue", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*23/28);
-        font.draw(sh.batch,"Background Alpha", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*21/28);
-        font.draw(sh.batch,"Brick Red", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*19/28);
-        font.draw(sh.batch,"Brick Green", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*17/28);
-        font.draw(sh.batch,"Brick Blue", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*15/28);
-        font.draw(sh.batch,"Brick Alpha", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*13/28);
-        font.draw(sh.batch,"Bullet Red", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*11/28);
-        font.draw(sh.batch,"Bullet Green", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*9/28);
-        font.draw(sh.batch,"Bullet Blue", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*7/28);
-        font.draw(sh.batch,"Bullet Alpha", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*5/28);
+        font.draw(sh.batch,"Brick Red", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*27/28);
+        font.draw(sh.batch,"Brick Green", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*25/28);
+        font.draw(sh.batch,"Brick Blue", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*23/28);
+        font.draw(sh.batch,"Brick Alpha", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*21/28);
+        font.draw(sh.batch,"Bullet Red", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*19/28);
+        font.draw(sh.batch,"Bullet Green", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*17/28);
+        font.draw(sh.batch,"Bullet Blue", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*15/28);
+        font.draw(sh.batch,"Bullet Alpha", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*13/28);
+        font.draw(sh.batch,"Background Red", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*11/28);
+        font.draw(sh.batch,"Background Green", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*9/28);
+        font.draw(sh.batch,"Background Blue", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*7/28);
+        font.draw(sh.batch,"Background Alpha", (float) Gdx.graphics.getWidth()/50,(float)Gdx.graphics.getHeight()*5/28);
 
+        sh.batch.end();
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        shape.setColor(beingSet.backgroundColor);
+        shape.rect(Gdx.graphics.getWidth()/6, 0, Gdx.graphics.getWidth()*2/3,Gdx.graphics.getHeight()/8);
+        shape.setColor(beingSet.bulletColor);
+        shape.circle(Gdx.graphics.getWidth()*1/4,Gdx.graphics.getHeight()/14,15f);
+        shape.setColor(beingSet.brickColor);
+        shape.rect(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/28, 200,Gdx.graphics.getHeight()/16);
+        shape.end();
+        sh.batch.begin();
+
+        updateSettings();
         if(cancel.getClickListener().isPressed()){
             sh.add(new TransitionState(sh, new MenuState(sh)));
         }
         else if(apply.getClickListener().isPressed()){
             updateSettings();
             sh.settings.set(this.beingSet);
-            sh.remove(this);
             sh.add(new TransitionState(sh,new MenuState(sh)));
+            sh.remove(this);
         }
     }
 }

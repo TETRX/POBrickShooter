@@ -3,7 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Color;
 
 public class Settings {
-    static Rainbow r = new Rainbow();
+    public static Rainbow r = new Rainbow();
     static {
         r.start();
     }
@@ -28,7 +28,7 @@ public class Settings {
     }
     public Settings(){
         bulletColor = new Color();
-        this.bulletColor=r.color;
+        this.bulletColor=defaultBulletColor;
         brickColor = new Color();
         this.brickColor.set(defaultBrickColor);
         backgroundColor=new Color();

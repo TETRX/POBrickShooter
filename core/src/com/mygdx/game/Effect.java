@@ -20,8 +20,8 @@ public abstract class Effect {
 
     public abstract boolean calculate(float deltaTime);
 
-    public final void finish(){
-        effectsHandler.effects.remove(this);
+    public void finish(){
+        effectsHandler.remove.add(this);
     }
 
 }
