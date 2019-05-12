@@ -16,13 +16,19 @@ public class Bullet implements Serializable {
     boolean started=false;
     boolean canMultipy=true;
     transient ShapeRenderer shapeRenderer=new ShapeRenderer();
-    public Bullet(WaitState ws){this.ws=ws;}
+    transient TwinkleEffect twinkleEffect;
+
+    public Bullet(WaitState ws){
+        this.ws=ws;
+        twinkleEffect=new TwinkleEffect(ws.sh.effectsHandler,this);
+    }
 
     public Bullet(WaitState ws,Vector2 start, Vector2 velocity,boolean started,boolean canMultipy){
         this(ws);
         this.started=started;
         this.canMultipy=canMultipy;
         set(start,velocity);
+        twinkleEffect=new TwinkleEffect(ws.sh.effectsHandler,this);
     }
 
     public void set(Vector2 pos, Vector2 velocity){

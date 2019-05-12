@@ -12,7 +12,8 @@ public class Particle {
     Particle(Vector2 position, Vector2 movement){
         this.position=new Vector2();
         this.movement=new Vector2();
-        this.position.set(position);
+        if(position!=null)
+            this.position.set(position);
         this.movement.set(movement);
     }
 
