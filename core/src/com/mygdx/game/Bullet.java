@@ -53,7 +53,7 @@ public class Bullet implements Serializable {
             return 1;
         if((bulletPosition.x-radius<0 && bulletVelocity.x<0) || (bulletPosition.x> Gdx.graphics.getWidth()-radius && bulletVelocity.x>0))
             bulletVelocity.x=-bulletVelocity.x;
-        if(bulletPosition.y>=Gdx.graphics.getHeight()-radius-50 && bulletVelocity.y>0)
+        if(bulletPosition.y>=Gdx.graphics.getHeight()-radius-60 && bulletVelocity.y>0)
             bulletVelocity.y=-bulletVelocity.y;
 
 

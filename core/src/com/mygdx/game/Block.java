@@ -31,7 +31,8 @@ public class Block implements Serializable {
         shapeRenderer.setProjectionMatrix(ws.sh.batch.getProjectionMatrix());
         font=new BitmapFont();
         font.setColor(Color.BLACK);
-        texture=new Texture("Brick.jpg");
+        font.getData().setScale(2,2);
+        texture=new Texture("Brick1.jpg");
         image=new Image(texture);
         image.setWidth(height);
         image.setHeight(width);
@@ -42,9 +43,11 @@ public class Block implements Serializable {
   transient  ShapeRenderer shapeRenderer;
    transient BitmapFont font;
    void continueGame(){
-       font=ws.font;
+       font=new BitmapFont();
+       font.setColor(Color.BLACK);
+       font.getData().setScale(2,2);
        shapeRenderer=new ShapeRenderer();
-       texture=new Texture("Brick.jpg");
+       texture=new Texture("Brick1.jpg");
        image=new Image(texture);
        image.setWidth(height);
        image.setHeight(width);
@@ -62,7 +65,7 @@ public class Block implements Serializable {
             shapeRenderer.end();
             ws.sh.batch.begin();
             image.draw(ws.sh.batch,1.0f);
-            font.draw(ws.sh.batch,String.valueOf(value),x+height/2-3,y+width/2+5);
+            font.draw(ws.sh.batch,String.valueOf(value),x+height/2-6,y+width/2+8);
             return 1;
         }
         if(special==1){

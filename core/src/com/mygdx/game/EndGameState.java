@@ -35,7 +35,7 @@ public class EndGameState extends State {
 
     @Override
     public void update(float gameLoopTime) {
-        font.draw(sh.batch,"GAME OVER",320,300);
+        font.draw(sh.batch,"GAME OVER",Gdx.graphics.getWidth()/2-50,300);
 
         FileInputStream fileIS=null;
         ObjectInputStream inputStream = null;
@@ -54,7 +54,7 @@ public class EndGameState extends State {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        font.draw(sh.batch,"your result: "+result+" round: "+round+" best score: "+bestResult,320,200);
+        font.draw(sh.batch,"your result: "+result+" round: "+round+" best score: "+bestResult,Gdx.graphics.getWidth()/2-90,200);
 
 
         if(result>bestResult) {

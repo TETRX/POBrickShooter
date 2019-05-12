@@ -84,9 +84,9 @@ public class WaitState extends State implements Serializable {
         stage= sh.stage;
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
         // skin=new Skin(Gdx.files.internal("uiskin.json"));
-        endGame = new TextButton("End Game", skin);
+        endGame = new TextButton("End", skin);
         endGame.setPosition(15,Gdx.graphics.getHeight()-45);
-        endGame.setSize(90,30);
+        endGame.setSize(45,30);
         stage.addActor(endGame);
 
         endGame.addListener(new ClickListener(){
@@ -98,8 +98,8 @@ public class WaitState extends State implements Serializable {
             }
 
         });
-        removeLastMove = new TextButton("Remove move", skin);
-        removeLastMove.setPosition(130,Gdx.graphics.getHeight()-45);
+        removeLastMove = new TextButton("try again", skin);
+        removeLastMove.setPosition(75,Gdx.graphics.getHeight()-45);
         removeLastMove.setSize(90,30);
         stage.addActor(removeLastMove);
         Gdx.input.setInputProcessor(stage);
@@ -143,13 +143,15 @@ public class WaitState extends State implements Serializable {
        // sh.batch.begin();
         sh.batch.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.2f,0.2f,0.2f,0);
-        shapeRenderer.rect(0,Gdx.graphics.getHeight()-50,Gdx.graphics.getWidth(),50);
+        shapeRenderer.setColor(0.15f,0.15f,0.2f,0);
+        shapeRenderer.rect(0,Gdx.graphics.getHeight()-60,Gdx.graphics.getWidth(),90);
         shapeRenderer.end();
         sh.batch.begin();
 
         font.draw(sh.batch,"round: "+String.valueOf(round),Gdx.graphics.getWidth()-90,Gdx.graphics.getHeight()-20);
-        font.draw(sh.batch,"result: "+String.valueOf(result),Gdx.graphics.getWidth()-90,Gdx.graphics.getHeight()-40);
+        font.getData().setScale(2,2);
+        font.draw(sh.batch,String.valueOf(result),Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()-20);
+        font.getData().setScale(1,1);
         sh.batch.end();
         stage.draw();
         sh.batch.begin();
@@ -188,12 +190,12 @@ public class WaitState extends State implements Serializable {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(sh.settings.bulletColor);
         shapeRenderer.circle(Gdx.graphics.getWidth()/2f,5,15);
-        if(Gdx.input.getY() < Gdx.graphics.getHeight()-35 && Gdx.input.getY()>50)
+        if(Gdx.input.getY() < Gdx.graphics.getHeight()-35 && Gdx.input.getY()>60)
              shapeRenderer.line(Gdx.graphics.getWidth()/2f,0,Gdx.input.getX(),Gdx.graphics.getHeight()-Gdx.input.getY());
         shapeRenderer.end();
         sh.batch.begin();
         render();
-           if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Gdx.input.getY() < Gdx.graphics.getHeight()-35 && Gdx.input.getY()>50){
+           if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Gdx.input.getY() < Gdx.graphics.getHeight()-35 && Gdx.input.getY()>60){
 
                     destination.x = Gdx.input.getX();
                     destination.y = Gdx.graphics.getHeight()-Gdx.input.getY();

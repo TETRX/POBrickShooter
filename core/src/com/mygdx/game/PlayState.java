@@ -40,8 +40,8 @@ public class PlayState extends State {
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
         // skin=new Skin(Gdx.files.internal("uiskin.json"));
         faster = new TextButton(">>>", skin);
-        faster.setPosition(245,Gdx.graphics.getHeight()-45);
-        faster.setSize(90,30);
+        faster.setPosition(180,Gdx.graphics.getHeight()-45);
+        faster.setSize(45,30);
         stage.addActor(faster);
         Gdx.input.setInputProcessor(stage);
     }
