@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import javafx.util.Pair;
 
 import java.io.Serializable;
 
@@ -34,7 +35,7 @@ public class Bullet implements Serializable {
     public void set(Vector2 pos, Vector2 velocity){
         bulletPosition=new Vector2(pos.x,pos.y);
         bulletVelocity=new Vector2(velocity.x, velocity.y);
-        bulletVelocity.clamp(550,550);
+       // bulletVelocity.clamp(550,550);
     }
 
     void continueGame(){
@@ -43,20 +44,25 @@ public class Bullet implements Serializable {
 
     public void faster(){bulletVelocity.clamp(1000,1000);}
 
-    public int update(float gameLoopTime) {
+    public Pair<Integer,Integer> update(float gameLoopTime) {
         if(Math.abs(bulletVelocity.y)<2)
             bulletVelocity.y*=2;
 
         Vector2 oldPosition=new Vector2(bulletPosition);
         bulletPosition.mulAdd(bulletVelocity,gameLoopTime);
+
+        if(ws.floor>0 && bulletPosition.y<radius+15 && bulletVelocity.y<0){
+            bulletVelocity.y*=(-1);
+            ws.floor--;
+        }
         if(bulletPosition.y<radius/2 && started==true)
-            return 0;
+            return new Pair<Integer,Integer>(0,0);
         if(bulletPosition.y>radius/2)
         started=true;
         //System.out.println(bulletPosition);
         //System.out.println(oldPosition);
         if(bulletPosition.y<0)
-            return 1;
+            return new Pair<Integer,Integer>(0,1);
         if((bulletPosition.x-radius<0 && bulletVelocity.x<0) || (bulletPosition.x> Gdx.graphics.getWidth()-radius && bulletVelocity.x>0))
             bulletVelocity.x=-bulletVelocity.x;
         if(bulletPosition.y>=Gdx.graphics.getHeight()-radius-60 && bulletVelocity.y>0)
@@ -71,18 +77,25 @@ public class Bullet implements Serializable {
         if(i>=0 && i<5 && j>=0 && j<5 && ws.arrOfBlocks[i][j].special== 1){
             if(Math.abs(bulletPosition.x-(ws.arrOfBlocks[i][j].x+ws.arrOfBlocks[i][j].height/2))<2*radius && Math.abs(bulletPosition.y-(ws.arrOfBlocks[i][j].y+ws.arrOfBlocks[i][j].width/2))<2*radius){
                 ws.arrOfBlocks[i][j].special=0;
-                return 10000;
+                return new Pair<Integer,Integer>(1,1);
             }
         }
 
         if(i>=0 && i<5 && j>=0 && j<5 && ws.arrOfBlocks[i][j].special== 2 && canMultipy){
             if(Math.abs(bulletPosition.x-(ws.arrOfBlocks[i][j].x+ws.arrOfBlocks[i][j].height/2))<2*radius && Math.abs(bulletPosition.y-(ws.arrOfBlocks[i][j].y+ws.arrOfBlocks[i][j].width/2))<2*radius){
               canMultipy=false;
-               return 2;
+               return new Pair<Integer,Integer>(2,1);
 
             }
         }
 
+        if(i>=0 && i<5 && j>=0 && j<5 && ws.arrOfBlocks[i][j].special== 3){
+            if(Math.abs(bulletPosition.x-(ws.arrOfBlocks[i][j].x+ws.arrOfBlocks[i][j].height/2))<2*radius-5 && Math.abs(bulletPosition.y-(ws.arrOfBlocks[i][j].y+ws.arrOfBlocks[i][j].width/2))<2*radius-5){
+                ws.arrOfBlocks[i][j].special=0;
+                ws.arrOfBlocks[i][j].special=0;
+                return new Pair<Integer,Integer>(3,1);
+            }
+        }
 
                      i=floor((bulletPosition.x+radius-ws.allBlocksX)/width);
                      j=floor((bulletPosition.y+radius-ws.allBlocksY)/height);
@@ -161,7 +174,7 @@ public class Bullet implements Serializable {
         shapeRenderer.setColor(ws.sh.settings.bulletColor);
         shapeRenderer.circle(bulletPosition.x,bulletPosition.y,radius);
         shapeRenderer.end();
-        return 1;
+        return new Pair<Integer,Integer>(0,1);
         }
 
 }

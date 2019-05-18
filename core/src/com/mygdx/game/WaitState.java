@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +25,7 @@ public class WaitState extends State implements Serializable {
         createBlocks();
         createButtons();
         listOfBullets.add(new Bullet(this));
+        level=sh.settings.level;
         save(this);
     }
 
@@ -39,6 +39,8 @@ public class WaitState extends State implements Serializable {
     int round=1;
     int result=0;
     Random rand = new Random();
+    int level;
+    int floor=0;
 
 
     float allBlocksX;
@@ -58,6 +60,7 @@ public class WaitState extends State implements Serializable {
                arrOfBlocks[i][j].continueGame();
            }
        }
+       sh.settings.level=level;
    }
     void createBlocks(){
         allBlocksX=Gdx.graphics.getWidth()/16f; //50
@@ -197,6 +200,7 @@ public class WaitState extends State implements Serializable {
         render();
            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Gdx.input.getY() < Gdx.graphics.getHeight()-35 && Gdx.input.getY()>60){
 
+                    floor=0;
                     destination.x = Gdx.input.getX();
                     destination.y = Gdx.graphics.getHeight()-Gdx.input.getY();
                     velocity=destination.sub(start).clamp(550,550);

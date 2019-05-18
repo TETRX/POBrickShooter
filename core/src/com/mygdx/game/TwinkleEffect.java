@@ -71,7 +71,7 @@ public class TwinkleEffect extends Effect {
                 particles[i].move(deltaTime);
                 pixmap.setColor(particles[i].color);
                 pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
-                System.out.println(particles[i].position);
+               // System.out.println(particles[i].position);
                 if(particles[i].onlySoMuch>1.0f || particles[i].isOutOfBounds()){
                     pixmap.setColor(Color.CLEAR);
                     pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);

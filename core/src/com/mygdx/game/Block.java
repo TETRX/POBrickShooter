@@ -85,6 +85,15 @@ public class Block implements Serializable {
             shapeRenderer.end();
             ws.sh.batch.begin();
         }
+
+        if(special==3){
+            ws.sh.batch.end();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(0,1,0,1);
+            shapeRenderer.circle(x+height/2,y+width/2,10);
+            shapeRenderer.end();
+            ws.sh.batch.begin();
+        }
         return 0;
     }
 
