@@ -28,7 +28,7 @@ public class ParticleExplosionEffect extends Effect {
 
     @Override
     public boolean calculate(float deltaTime) {
-        boolean ret=false;
+       /* boolean ret=false;
         for(int i=0;i<3000;i++) {
             pixmap.setColor(Color.CLEAR);
             pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
@@ -43,8 +43,28 @@ public class ParticleExplosionEffect extends Effect {
         if(timer>100){
             return false;
         }
+        return ret;*/
+
+        boolean ret=false;
+        for(int i=0;i<50;i++) {
+            pixmap.setColor(Color.CLEAR);
+            pixmap.fillRectangle((int) particles[i].position.x, (int) particles[i].position.y,8,8);
+            //pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
+            particles[i].move(deltaTime);
+            if (!particles[i].isOutOfBounds()) {
+                ret = true;
+            }
+            pixmap.setColor(effectsHandler.stateHandler.settings.brickColor);
+            pixmap.fillRectangle((int) particles[i].position.x, (int) particles[i].position.y,8,8);
+            //pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
+        }
+        timer++;
+        if(timer>100){
+            return false;
+        }
         return ret;
     }
+
     @Override
     public void finish(){
         pixmap.setColor(Color.CLEAR);

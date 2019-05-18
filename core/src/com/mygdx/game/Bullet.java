@@ -101,6 +101,7 @@ public class Bullet implements Serializable {
                      j=floor((bulletPosition.y+radius-ws.allBlocksY)/height);
                     if(i>=0 && i<5 && j>=0 && j<5 && ws.arrOfBlocks[i][j].value > 0) {
                         ws.arrOfBlocks[i][j].decrease();
+                        ws.arrOfBlocks[i][j].fontSize=2.1f;
                         if ( oldPosition.x + radius  -1< ws.arrOfBlocks[i][j].x ){
                             bulletVelocity.x = -bulletVelocity.x;
                            // bulletPosition.x= ws.arrOfBlocks[i][j].x -radius;
@@ -118,6 +119,7 @@ public class Bullet implements Serializable {
                         j = floor((bulletPosition.y - radius - ws.allBlocksY) / height);
                         if (i >= 0 && i < 5 && j >= 0 && j < 5 && ws.arrOfBlocks[i][j].value > 0) {
                             ws.arrOfBlocks[i][j].decrease();
+                            ws.arrOfBlocks[i][j].fontSize=2.1f;
                             if (oldPosition.x - radius +1 > ws.arrOfBlocks[i][j].x + width) {
                                 bulletVelocity.x = -bulletVelocity.x;
                                // bulletPosition.x = ws.arrOfBlocks[i][j].x + width + radius;

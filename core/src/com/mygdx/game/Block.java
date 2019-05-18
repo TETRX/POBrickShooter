@@ -19,8 +19,11 @@ public class Block implements Serializable {
     int special=0; //1-new bullet
     transient Image image;
     transient Texture texture;
+    float fontSize=2;
+    boolean fontUp=true;
 
     Block (float x,float y, float height, float width, int value, WaitState ws){
+
         this.x=x;
         this.y=y;
         this.height=height;
@@ -57,6 +60,22 @@ public class Block implements Serializable {
 
 
     public int render(){
+
+        if(fontSize>2 && fontSize<3 && fontUp)
+            fontSize+=0.2;
+        if(fontSize>2 && fontSize<3 && !fontUp)
+            fontSize-=0.2;
+        if(fontSize>=3){
+            fontUp=false;
+            fontSize=2.9f;
+        }
+
+        if(fontSize <=2){
+            fontUp=true;
+            fontSize=2;
+        }
+
+
         if(value>0 && special==0){
             ws.sh.batch.end();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -65,7 +84,8 @@ public class Block implements Serializable {
             shapeRenderer.end();
             ws.sh.batch.begin();
             image.draw(ws.sh.batch,1.0f);
-            font.draw(ws.sh.batch,String.valueOf(value),x+height/2-6,y+width/2+8);
+            font.getData().setScale(fontSize,fontSize);
+            font.draw(ws.sh.batch,String.valueOf(value),x+height/2-3*fontSize*(value+9)/10,y+width/2+4*fontSize);
             return 1;
         }
         if(special==1){
