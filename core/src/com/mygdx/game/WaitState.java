@@ -41,6 +41,7 @@ public class WaitState extends State implements Serializable {
     Random rand = new Random();
     int level;
     int floor=0;
+    boolean ifCheckPoint=false;
 
 
     float allBlocksX;
@@ -201,6 +202,7 @@ public class WaitState extends State implements Serializable {
            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Gdx.input.getY() < Gdx.graphics.getHeight()-35 && Gdx.input.getY()>60){
 
                     floor=0;
+                    ifCheckPoint=false;
                     destination.x = Gdx.input.getX();
                     destination.y = Gdx.graphics.getHeight()-Gdx.input.getY();
                     velocity=destination.sub(start).clamp(550,550);
