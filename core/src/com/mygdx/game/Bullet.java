@@ -179,4 +179,6 @@ public class Bullet implements Serializable {
         return new Pair<Integer,Integer>(0,1);
         }
 
+        void setStarted(boolean a){started=a;}
+
 }

@@ -98,6 +98,13 @@ public class WaitState extends State implements Serializable {
             public void clicked(InputEvent event, float x, float y){
                 if(sh.lastElement()==myThis)
                     save(myThis);
+                else {
+                    if(sh.lastElement() instanceof PlayState) {
+                        for (Bullet b : listOfBullets){
+                            b.setStarted(false);
+                        }
+                    }
+                }
                 sh.add(new TransitionState(sh,new EndGameState(sh,result,round)));
             }
 
