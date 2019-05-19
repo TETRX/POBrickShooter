@@ -42,9 +42,10 @@ public class MyGdxGame extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
+		//EffectsHandler.stop();
+		Effect.pixmap.dispose();
 		batch.dispose();
 		//img.dispose();
-		Effect.pixmap.dispose();
 		effects.dispose();
 	}
 }

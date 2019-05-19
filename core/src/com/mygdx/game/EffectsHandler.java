@@ -27,6 +27,9 @@ public class EffectsHandler extends Thread {
                 e.printStackTrace();
             }
             for(Effect i: effects){
+                if(Effect.pixmap.isDisposed()){
+                    stop();
+                }
                 if(i!=null) {
                     if(!i.calculate(Gdx.graphics.getDeltaTime())){
                         i.finish();
