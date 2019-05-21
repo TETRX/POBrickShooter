@@ -52,18 +52,12 @@ public class ChangeLevelState extends State{
         }
         if(easy.isPressed()){
             sh.settings.level=1;
-            //sh.remove(this);
-            //sh.add(new TransitionState(sh,new SettingsState(sh)));
         }
         if(medium.isPressed()){
             sh.settings.level=2;
-            //sh.remove(this);
-           // sh.add(new TransitionState(sh,new SettingsState(sh)));
         }
         if(hard.isPressed()){
             sh.settings.level=3;
-           // sh.remove(this);
-           // sh.add(new TransitionState(sh,new SettingsState(sh)));
         }
 
     }

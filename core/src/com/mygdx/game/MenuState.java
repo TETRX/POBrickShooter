@@ -1,14 +1,11 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -25,7 +22,6 @@ public class MenuState extends State {
         this.sh=sh;
         stage= new Stage();
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
-       // skin=new Skin(Gdx.files.internal("uiskin.json"));
         newGame = new TextButton("New Game", skin);
         newGame.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*4f/6f);
         newGame.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);
@@ -45,9 +41,12 @@ public class MenuState extends State {
         sh.batch.end();
         stage.draw();
         sh.batch.begin();
+        //----new game
         if(newGame.getClickListener().isPressed()){
             sh.add(new TransitionState(sh,new WaitState(sh)));
         }
+
+        //----------continue game
         if(continueGame.getClickListener().isPressed()){
             try {
                 sleep(300);
@@ -79,6 +78,8 @@ public class MenuState extends State {
             sh.add(new TransitionState(sh,waitState));
 
         }
+
+        //----------settings
         if(settings.getClickListener().isPressed()){
             sh.remove(this);
             sh.add(new TransitionState(sh,new SettingsState(sh)));

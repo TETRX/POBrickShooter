@@ -1,9 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -35,7 +33,8 @@ public class EndGameState extends State {
 
     @Override
     public void update(float gameLoopTime) {
-        font.draw(sh.batch,"GAME OVER",Gdx.graphics.getWidth()/2-50,300);
+        font.getData().setScale(3,3);
+        font.draw(sh.batch,"GAME OVER",Gdx.graphics.getWidth()/2-140,400);
 
         FileInputStream fileIS=null;
         ObjectInputStream inputStream = null;
@@ -54,7 +53,9 @@ public class EndGameState extends State {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        font.draw(sh.batch,"your result: "+result+" round: "+round+" best score: "+bestResult,Gdx.graphics.getWidth()/2-90,200);
+        font.getData().setScale(2,2);
+        font.draw(sh.batch,"your result: "+result+" round: "+round,Gdx.graphics.getWidth()/2-140,260);
+        font.draw(sh.batch," best score: "+bestResult,Gdx.graphics.getWidth()/2-130,200);
 
 
         if(result>bestResult) {

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static java.lang.Thread.sleep;
 
 public class WaitState extends State implements Serializable {
     protected WaitState(StateHandler sh) {
@@ -50,6 +49,8 @@ public class WaitState extends State implements Serializable {
     float allBlocksWidth;
    transient BitmapFont font=new BitmapFont();
 
+   //continueGame odpalamy na swzystkich obiektach jak chce zaczag gre zeby potworzyc to wszystko czego nie da sie serializowac
+
    void continueGame(){
        font=new BitmapFont();
        shapeRenderer=new ShapeRenderer();
@@ -63,6 +64,8 @@ public class WaitState extends State implements Serializable {
        }
        sh.settings.level=level;
    }
+
+   //-------tworze puste bloki i losuje wartosci dla pierwszego poziomu
     void createBlocks(){
         allBlocksX=Gdx.graphics.getWidth()/16f; //50
         allBlocksY=Gdx.graphics.getHeight()/4f;
@@ -84,10 +87,11 @@ public class WaitState extends State implements Serializable {
    transient TextButton endGame;
     transient TextButton removeLastMove;
     WaitState myThis=this;
+
+    //--------przyciski end game i usuwanie ostatniego ruchu i ich obsluga
     void createButtons(){
         stage= sh.stage;
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
-        // skin=new Skin(Gdx.files.internal("uiskin.json"));
         endGame = new TextButton("End", skin);
         endGame.setPosition(15,Gdx.graphics.getHeight()-45);
         endGame.setSize(45,30);
@@ -120,7 +124,6 @@ public class WaitState extends State implements Serializable {
 
             @Override
             public void clicked(InputEvent event, float x, float y){
-               // sh.add(new TransitionState(sh,this));
 
                 System.out.println("rm");
                 WaitState waitState=null;
@@ -144,14 +147,14 @@ public class WaitState extends State implements Serializable {
 
                 waitState.sh=sh;
                 waitState.continueGame();
-                // sh.remove(this);
                 sh.add(new TransitionState(sh,waitState));
             }
         });
     }
 
+    //--------rysowanie tego co jest i w waitstate i w playstate
+
     void render(){
-       // sh.batch.begin();
         sh.batch.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0.15f,0.15f,0.2f,0);
@@ -167,7 +170,16 @@ public class WaitState extends State implements Serializable {
         stage.draw();
         sh.batch.begin();
 
+        for(int i=0;i<5;i++){
+            for(int j=0;j<5;j++){
+                arrOfBlocks[i][j].render();
+            }
+        }
+
     }
+
+
+    //zapisywanie waitstate do pliku
 
     void save(WaitState ws){System.out.println("save");
 
@@ -182,8 +194,6 @@ public class WaitState extends State implements Serializable {
             e.printStackTrace();
         }
 
-
-
     }
 
 
@@ -192,11 +202,8 @@ public class WaitState extends State implements Serializable {
     public void update(float gameLoopTime) {
 
         start.set(Gdx.graphics.getWidth()/2f,10);
-        for(int i=0;i<5;i++){
-            for(int j=0;j<5;j++){
-                arrOfBlocks[i][j].render();
-            }
-        }
+        //-----------rysowanie pilki i kreski
+
         sh.batch.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(sh.settings.bulletColor);
@@ -205,7 +212,11 @@ public class WaitState extends State implements Serializable {
              shapeRenderer.line(Gdx.graphics.getWidth()/2f,0,Gdx.input.getX(),Gdx.graphics.getHeight()-Gdx.input.getY());
         shapeRenderer.end();
         sh.batch.begin();
+
+        //-----rysowanie tego co w play i waitstate
         render();
+
+        //---------nowy playstate jak klikniesz w dozwolonym miejscu
            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Gdx.input.getY() < Gdx.graphics.getHeight()-35 && Gdx.input.getY()>60){
 
                     floor=0;
@@ -216,6 +227,7 @@ public class WaitState extends State implements Serializable {
                     float i=-0.15f;
                     for(Bullet x : listOfBullets){
                         x.set(start.mulAdd(velocity,i),velocity);
+                        x.fast=550;
                     }
                     save(this);
                     sh.add(new PlayState(sh,this,round));

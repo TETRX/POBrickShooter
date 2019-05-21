@@ -18,6 +18,7 @@ public class Bullet implements Serializable {
     boolean canMultipy=true;
     transient ShapeRenderer shapeRenderer=new ShapeRenderer();
     transient TwinkleEffect twinkleEffect;
+    int fast=550;
 
     public Bullet(WaitState ws){
         this.ws=ws;
@@ -35,14 +36,13 @@ public class Bullet implements Serializable {
     public void set(Vector2 pos, Vector2 velocity){
         bulletPosition=new Vector2(pos.x,pos.y);
         bulletVelocity=new Vector2(velocity.x, velocity.y);
-       // bulletVelocity.clamp(550,550);
     }
 
     void continueGame(){
         shapeRenderer=new ShapeRenderer();
     }
 
-    public void faster(){bulletVelocity.clamp(1000,1000);}
+    public void faster(){if(fast<2000) fast+=500; bulletVelocity.clamp(fast,fast);System.out.println(fast);}
 
     public Pair<Integer,Integer> update(float gameLoopTime) {
         if(Math.abs(bulletVelocity.y)<2)
@@ -51,16 +51,17 @@ public class Bullet implements Serializable {
         Vector2 oldPosition=new Vector2(bulletPosition);
         bulletPosition.mulAdd(bulletVelocity,gameLoopTime);
 
+        if(bulletPosition.y<radius/2 && started==true)
+            return new Pair<Integer,Integer>(0,0);
+
+        //-----------------odbijanie od brzegow
         if(ws.floor>0 && bulletPosition.y<radius+15 && bulletVelocity.y<0){
             bulletVelocity.y*=(-1);
             ws.floor--;
         }
-        if(bulletPosition.y<radius/2 && started==true)
-            return new Pair<Integer,Integer>(0,0);
+
         if(bulletPosition.y>radius/2)
         started=true;
-        //System.out.println(bulletPosition);
-        //System.out.println(oldPosition);
         if(bulletPosition.y<0)
             return new Pair<Integer,Integer>(0,1);
         if((bulletPosition.x-radius<0 && bulletVelocity.x<0) || (bulletPosition.x> Gdx.graphics.getWidth()-radius && bulletVelocity.x>0))
@@ -71,6 +72,8 @@ public class Bullet implements Serializable {
 
         float width=ws.allBlocksWidth/5;
         float height=ws.allBlocksHeight/5;
+
+        //----------zdobywanie specjalnych
 
         int i=floor((bulletPosition.x-ws.allBlocksX)/width);
         int j=floor((bulletPosition.y-ws.allBlocksY)/height);
@@ -97,6 +100,8 @@ public class Bullet implements Serializable {
             }
         }
 
+        //----------ODBIJANIE OD KLOCKOW
+
                      i=floor((bulletPosition.x+radius-ws.allBlocksX)/width);
                      j=floor((bulletPosition.y+radius-ws.allBlocksY)/height);
                     if(i>=0 && i<5 && j>=0 && j<5 && ws.arrOfBlocks[i][j].value > 0) {
@@ -104,12 +109,11 @@ public class Bullet implements Serializable {
                         ws.arrOfBlocks[i][j].fontSize=2.1f;
                         if ( oldPosition.x + radius  -1< ws.arrOfBlocks[i][j].x ){
                             bulletVelocity.x = -bulletVelocity.x;
-                           // bulletPosition.x= ws.arrOfBlocks[i][j].x -radius;
                         }
 
                          if ( oldPosition.y + radius -1 < ws.arrOfBlocks[i][j].y ){
                             bulletVelocity.y = -bulletVelocity.y;
-                           // bulletPosition.y=ws.arrOfBlocks[i][j].y -radius;
+
                         }
 
                     }
@@ -122,11 +126,9 @@ public class Bullet implements Serializable {
                             ws.arrOfBlocks[i][j].fontSize=2.1f;
                             if (oldPosition.x - radius +1 > ws.arrOfBlocks[i][j].x + width) {
                                 bulletVelocity.x = -bulletVelocity.x;
-                               // bulletPosition.x = ws.arrOfBlocks[i][j].x + width + radius;
                             }
                             if (oldPosition.y - radius +1 > ws.arrOfBlocks[i][j].y + height) {
                                 bulletVelocity.y = -bulletVelocity.y;
-                               // bulletPosition.y = ws.arrOfBlocks[i][j].y + height + radius;
                             }
 
                         }
@@ -138,13 +140,12 @@ public class Bullet implements Serializable {
                             j = floor((bulletPosition.y - radius - ws.allBlocksY) / height);
                             if(i>=0 && i<5 && j>=0 && j<5 && ws.arrOfBlocks[i][j].value > 0) {
                                 ws.arrOfBlocks[i][j].decrease();
+                                ws.arrOfBlocks[i][j].fontSize=2.1f;
                                 if ( oldPosition.x + radius  -1< ws.arrOfBlocks[i][j].x ){
                                     bulletVelocity.x = -bulletVelocity.x;
-                                    //bulletPosition.x= ws.arrOfBlocks[i][j].x -radius;
                                 }
                                 if( oldPosition.y - radius +1> ws.arrOfBlocks[i][j].y + height){
                                     bulletVelocity.y = -bulletVelocity.y;
-                                    //bulletPosition.y=ws.arrOfBlocks[i][j].y + height + radius;
                                 }
 
                             }
@@ -155,13 +156,12 @@ public class Bullet implements Serializable {
                                 j = floor((bulletPosition.y + radius - ws.allBlocksY) / height);
                                 if(i>=0 && i<5 && j>=0 && j<5 && ws.arrOfBlocks[i][j].value > 0) {
                                     ws.arrOfBlocks[i][j].decrease();
+                                    ws.arrOfBlocks[i][j].fontSize=2.1f;
                                     if ( oldPosition.x - radius  +1> ws.arrOfBlocks[i][j].x+width){
                                         bulletVelocity.x = -bulletVelocity.x;
-                                       // bulletPosition.x=ws.arrOfBlocks[i][j].x+width + radius;
                                     }
                                     if ( oldPosition.y + radius  -1< ws.arrOfBlocks[i][j].y ){
                                         bulletVelocity.y = -bulletVelocity.y;
-                                        //bulletPosition.y=ws.arrOfBlocks[i][j].y -radius;
                                     }
 
                                 }
