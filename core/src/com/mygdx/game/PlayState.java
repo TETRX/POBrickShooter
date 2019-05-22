@@ -26,7 +26,6 @@ public class PlayState extends State {
         this.round=round;
         shapeRenderer=new ShapeRenderer();
         createButtons();
-
     }
 
     ShapeRenderer shapeRenderer;

@@ -124,12 +124,18 @@ public class WaitState extends State implements Serializable {
 
             @Override
             public void clicked(InputEvent event, float x, float y){
-
+                for(Bullet b: listOfBullets){
+                    b.setStarted(false);
+                }
                 System.out.println("rm");
                 WaitState waitState=null;
                 FileInputStream fileIS=null;
                 ObjectInputStream inputStream = null;
                 try {
+                    File lastgame = new File("lastGame.txt");
+                    if(!lastgame.exists()){
+                        lastgame.createNewFile();
+                    }
                     fileIS=new FileInputStream("lastGame.txt");
                     inputStream = new ObjectInputStream(fileIS);
                 } catch (IOException e) {
@@ -185,7 +191,12 @@ public class WaitState extends State implements Serializable {
 
         ObjectOutputStream outputStream = null;
         try {
-            FileOutputStream fileOS=new FileOutputStream("lastGame.txt");
+
+            File lastgame = new File("lastGame.txt");
+            if(!lastgame.exists()){
+                lastgame.createNewFile();
+            }
+            FileOutputStream fileOS=new FileOutputStream(lastgame);
             outputStream = new ObjectOutputStream(fileOS);
             outputStream.writeObject(ws);
             fileOS.close();
@@ -228,6 +239,7 @@ public class WaitState extends State implements Serializable {
                     for(Bullet x : listOfBullets){
                         x.set(start.mulAdd(velocity,i),velocity);
                         x.fast=550;
+                        //x.setStarted(true);
                     }
                     save(this);
                     sh.add(new PlayState(sh,this,round));

@@ -38,20 +38,26 @@ public class EndGameState extends State {
 
         FileInputStream fileIS=null;
         ObjectInputStream inputStream = null;
-        try {
-            fileIS=new FileInputStream("bestScore.txt");
-            inputStream = new ObjectInputStream(fileIS);
-        } catch (IOException e) {
-            e.printStackTrace();
+        File bestscore = new File("bestScore.txt");
+        if(bestscore.exists()) {
+            try {
+                fileIS = new FileInputStream("bestScore.txt");
+                inputStream = new ObjectInputStream(fileIS);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                bestResult = (Integer) inputStream.readObject();
+                fileIS.close();
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
-        try {
-            bestResult=(Integer)inputStream.readObject();
-            fileIS.close();
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        else {
+            bestResult=0;
         }
         font.getData().setScale(2,2);
         font.draw(sh.batch,"your result: "+result+" round: "+round,Gdx.graphics.getWidth()/2-140,260);
@@ -62,7 +68,10 @@ public class EndGameState extends State {
             System.out.println("best");
             ObjectOutputStream outputStream = null;
             try {
-                FileOutputStream fileOS = new FileOutputStream("bestScore.txt");
+                if(!bestscore.exists()){
+                    bestscore.createNewFile();
+                }
+                FileOutputStream fileOS = new FileOutputStream(bestscore);
                 outputStream = new ObjectOutputStream(fileOS);
                 outputStream.writeObject(result);
                 fileOS.close();
