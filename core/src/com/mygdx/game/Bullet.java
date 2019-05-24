@@ -39,6 +39,7 @@ public class Bullet implements Serializable {
     }
 
     void continueGame(){
+        twinkleEffect=new TwinkleEffect(ws.sh.effectsHandler,this);
         shapeRenderer=new ShapeRenderer();
     }
 
@@ -60,8 +61,10 @@ public class Bullet implements Serializable {
             ws.floor--;
         }
 
-        if(bulletPosition.y>radius/2)
-        started=true;
+        if(bulletPosition.y>radius/2) {
+            System.out.println("Aaa");
+            started = true;
+        }
         if(bulletPosition.y<0)
             return new Pair<Integer,Integer>(0,1);
         if((bulletPosition.x-radius<0 && bulletVelocity.x<0) || (bulletPosition.x> Gdx.graphics.getWidth()-radius && bulletVelocity.x>0))

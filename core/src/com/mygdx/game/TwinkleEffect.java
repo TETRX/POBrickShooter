@@ -51,37 +51,37 @@ public class TwinkleEffect extends Effect {
 
     @Override
     public boolean calculate(float deltaTime) {
-        for(int i=0;i<100;i++){
-            if(!wasCr && particles[i]==null){
-                if(r.nextBoolean()){
-                    particles[i]=new Sparkle(bullet.bulletPosition,new Vector2((r.nextBoolean() ? -1 : 1)*r.nextInt(50)*r.nextFloat(),(r.nextBoolean() ? -1 : 1)*r.nextInt(50)*r.nextFloat())
-                            ,new Color(r.nextFloat(),r.nextFloat(),r.nextFloat(),1.0f));
-                    wasCr=true;
+        for (int i = 0; i < 100; i++) {
+            if (!wasCr && particles[i] == null) {
+                if (r.nextBoolean()) {
+                    particles[i] = new Sparkle(bullet.bulletPosition, new Vector2((r.nextBoolean() ? -1 : 1) * r.nextInt(50) * r.nextFloat(), (r.nextBoolean() ? -1 : 1) * r.nextInt(50) * r.nextFloat())
+                            , new Color(r.nextFloat(), r.nextFloat(), r.nextFloat(), 1.0f));
+                    wasCr = true;
                     timer.scheduleTask(new Timer.Task() {
                         @Override
                         public void run() {
-                            wasCr=false;
+                            wasCr = false;
                         }
-                    },0.01f);
+                    }, 0.01f);
                 }
             }
-            if((particles[i]!=null && particles[i].position!=null && ! particles[i].isOutOfBounds()) && bullet.started){
+            if ((particles[i] != null && particles[i].position != null && !particles[i].isOutOfBounds()) && bullet.started) {
                 pixmap.setColor(Color.CLEAR);
                 pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
                 particles[i].move(deltaTime);
                 pixmap.setColor(particles[i].color);
                 pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
-               // System.out.println(particles[i].position);
-                if(particles[i].onlySoMuch>1.0f || particles[i].isOutOfBounds()){
+                // System.out.println(particles[i].position);
+                if (particles[i].onlySoMuch > 1.0f || particles[i].isOutOfBounds()) {
                     pixmap.setColor(Color.CLEAR);
                     pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
-                    particles[i]=null;
+                    particles[i] = null;
                 }
             }
-            if(particles[i]!=null && (particles[i].onlySoMuch>1.0f || particles[i].isOutOfBounds()|| !bullet.started)){
+            if (particles[i] != null && (particles[i].onlySoMuch > 1.0f || particles[i].isOutOfBounds() || !bullet.started)) {
                 pixmap.setColor(Color.CLEAR);
                 pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
-                particles[i]=null;
+                particles[i] = null;
             }
         }
         return true;

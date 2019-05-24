@@ -14,6 +14,7 @@ public class SettingsState extends State{
 
     Button changeColours;
     Button changeLevel;
+    Button toMenu;
     void createButtons(){
         stage= new Stage();
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
@@ -27,6 +28,11 @@ public class SettingsState extends State{
         changeLevel.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*2f/6f);
         changeLevel.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);
         stage.addActor(changeLevel);
+
+        toMenu= new TextButton("menu", skin);
+        toMenu.setPosition( Gdx.graphics.getWidth()*17/20,Gdx.graphics.getHeight()/40);
+        toMenu.setSize((float)Gdx.graphics.getWidth()/10,(float) Gdx.graphics.getHeight()/10);
+        stage.addActor(toMenu);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -41,6 +47,9 @@ public class SettingsState extends State{
         sh.batch.end();
         stage.draw();
         sh.batch.begin();
+        if(toMenu.isPressed()){
+            sh.add(new TransitionState(sh,new MenuState(sh)));
+        }
         if(changeColours.isPressed()){
             sh.add(new TransitionState(sh,new ChangeColourState(sh)));
         }
