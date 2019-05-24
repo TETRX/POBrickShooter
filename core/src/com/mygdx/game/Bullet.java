@@ -62,7 +62,6 @@ public class Bullet implements Serializable {
         }
 
         if(bulletPosition.y>radius/2) {
-            System.out.println("Aaa");
             started = true;
         }
         if(bulletPosition.y<0)
@@ -171,15 +170,16 @@ public class Bullet implements Serializable {
                             }
                         }
                     }
+                    render();
 
-
-
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(ws.sh.settings.bulletColor);
-        shapeRenderer.circle(bulletPosition.x,bulletPosition.y,radius);
-        shapeRenderer.end();
         return new Pair<Integer,Integer>(0,1);
+        }
+
+        public void render(){
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(ws.sh.settings.bulletColor);
+            shapeRenderer.circle(bulletPosition.x,bulletPosition.y,radius);
+            shapeRenderer.end();
         }
 
         void setStarted(boolean a){started=a;}

@@ -55,7 +55,7 @@ public class TwinkleEffect extends Effect {
             if (!wasCr && particles[i] == null) {
                 if (r.nextBoolean()) {
                     particles[i] = new Sparkle(bullet.bulletPosition, new Vector2((r.nextBoolean() ? -1 : 1) * r.nextInt(50) * r.nextFloat(), (r.nextBoolean() ? -1 : 1) * r.nextInt(50) * r.nextFloat())
-                            , new Color(r.nextFloat(), r.nextFloat(), r.nextFloat(), 1.0f));
+                            , effectsHandler.stateHandler.settings.trailEffectColor.color());
                     wasCr = true;
                     timer.scheduleTask(new Timer.Task() {
                         @Override

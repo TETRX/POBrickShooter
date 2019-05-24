@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 
-public class Rainbow extends Thread{
+public class Rainbow extends Thread implements Coloring{
     public Color color;
     float pr,pg,pb;
     Rainbow(){
@@ -26,5 +26,10 @@ public class Rainbow extends Thread{
             }
             setColor();
         }
+    }
+
+    @Override
+    public Color color() {
+        return color;
     }
 }

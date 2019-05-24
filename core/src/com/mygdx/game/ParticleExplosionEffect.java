@@ -54,7 +54,7 @@ public class ParticleExplosionEffect extends Effect {
             if (!particles[i].isOutOfBounds()) {
                 ret = true;
             }
-            pixmap.setColor(effectsHandler.stateHandler.settings.brickColor);
+            pixmap.setColor(effectsHandler.stateHandler.settings.explosionEffectColor.color());
             pixmap.fillRectangle((int) particles[i].position.x, (int) particles[i].position.y,8,8);
             //pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
         }

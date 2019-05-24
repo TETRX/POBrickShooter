@@ -239,7 +239,6 @@ public class WaitState extends State implements Serializable {
                     for(Bullet x : listOfBullets){
                         x.set(start.mulAdd(velocity,i),velocity);
                         x.fast=550;
-                        //x.setStarted(true);
                     }
                     save(this);
                     sh.add(new PlayState(sh,this,round));

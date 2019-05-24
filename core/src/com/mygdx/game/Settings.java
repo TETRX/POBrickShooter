@@ -7,6 +7,11 @@ public class Settings {
     static {
         r.start();
     }
+
+    public Coloring trailEffectColor=r;
+
+    public Coloring explosionEffectColor=new StandardColor(Color.RED);
+
     //Bullet
     int level=2;
     public static final Color defaultBulletColor = Color.WHITE;

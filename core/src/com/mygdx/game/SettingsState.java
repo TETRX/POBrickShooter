@@ -25,7 +25,7 @@ public class SettingsState extends State{
         stage.addActor(changeColours);
 
         changeLevel = new TextButton("Change level", skin);
-        changeLevel.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*2f/6f);
+        changeLevel.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*3f/6f);
         changeLevel.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);
         stage.addActor(changeLevel);
 
@@ -51,7 +51,7 @@ public class SettingsState extends State{
             sh.add(new TransitionState(sh,new MenuState(sh)));
         }
         if(changeColours.isPressed()){
-            sh.add(new TransitionState(sh,new ChangeColourState(sh)));
+            sh.add(new TransitionState(sh,new EffectsSettingsMenuState(sh)));
         }
         if(changeLevel.isPressed()){
             sh.add(new TransitionState(sh,new ChangeLevelState(sh)));
