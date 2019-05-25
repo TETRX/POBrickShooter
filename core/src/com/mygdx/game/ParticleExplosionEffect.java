@@ -46,16 +46,16 @@ public class ParticleExplosionEffect extends Effect {
         return ret;*/
 
         boolean ret=false;
-        for(int i=0;i<50;i++) {
+        for(int i=0;i<3000;i++) {
             pixmap.setColor(Color.CLEAR);
-            pixmap.fillRectangle((int) particles[i].position.x, (int) particles[i].position.y,8,8);
+            pixmap.fillRectangle((int) particles[i].position.x, (int) particles[i].position.y,effectsHandler.stateHandler.settings.explosionParticleSize,effectsHandler.stateHandler.settings.explosionParticleSize);
             //pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
             particles[i].move(deltaTime);
             if (!particles[i].isOutOfBounds()) {
                 ret = true;
             }
             pixmap.setColor(effectsHandler.stateHandler.settings.explosionEffectColor.color());
-            pixmap.fillRectangle((int) particles[i].position.x, (int) particles[i].position.y,8,8);
+            pixmap.fillRectangle((int) particles[i].position.x, (int) particles[i].position.y,effectsHandler.stateHandler.settings.explosionParticleSize,effectsHandler.stateHandler.settings.explosionParticleSize);
             //pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
         }
         timer++;

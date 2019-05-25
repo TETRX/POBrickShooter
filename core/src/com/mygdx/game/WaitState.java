@@ -18,6 +18,8 @@ import java.util.Random;
 public class WaitState extends State implements Serializable {
     protected WaitState(StateHandler sh) {
         super(sh);
+        if(stage!=null)
+            stage.clear();
         this.sh=sh;
         shapeRenderer=new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(sh.batch.getProjectionMatrix());
@@ -91,6 +93,7 @@ public class WaitState extends State implements Serializable {
     //--------przyciski end game i usuwanie ostatniego ruchu i ich obsluga
     void createButtons(){
         stage= sh.stage;
+        stage.clear();
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
         endGame = new TextButton("End", skin);
         endGame.setPosition(15,Gdx.graphics.getHeight()-45);

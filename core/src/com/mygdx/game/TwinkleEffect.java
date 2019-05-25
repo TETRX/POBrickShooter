@@ -67,20 +67,21 @@ public class TwinkleEffect extends Effect {
             }
             if ((particles[i] != null && particles[i].position != null && !particles[i].isOutOfBounds()) && bullet.started) {
                 pixmap.setColor(Color.CLEAR);
-                pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
+                pixmap.fillRectangle((int)particles[i].position.x,(int)particles[i].position.y,effectsHandler.stateHandler.settings.trailParticleSize,effectsHandler.stateHandler.settings.trailParticleSize);
+                //pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
                 particles[i].move(deltaTime);
                 pixmap.setColor(particles[i].color);
-                pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
+                pixmap.fillRectangle((int)particles[i].position.x,(int)particles[i].position.y,effectsHandler.stateHandler.settings.trailParticleSize,effectsHandler.stateHandler.settings.trailParticleSize);
                 // System.out.println(particles[i].position);
                 if (particles[i].onlySoMuch > 1.0f || particles[i].isOutOfBounds()) {
                     pixmap.setColor(Color.CLEAR);
-                    pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
+                    pixmap.fillRectangle((int)particles[i].position.x,(int)particles[i].position.y,effectsHandler.stateHandler.settings.trailParticleSize,effectsHandler.stateHandler.settings.trailParticleSize);
                     particles[i] = null;
                 }
             }
             if (particles[i] != null && (particles[i].onlySoMuch > 1.0f || particles[i].isOutOfBounds() || !bullet.started)) {
                 pixmap.setColor(Color.CLEAR);
-                pixmap.drawPixel((int) particles[i].position.x, (int) particles[i].position.y);
+                pixmap.fillRectangle((int)particles[i].position.x,(int)particles[i].position.y,effectsHandler.stateHandler.settings.trailParticleSize,effectsHandler.stateHandler.settings.trailParticleSize);
                 particles[i] = null;
             }
         }

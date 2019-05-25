@@ -21,6 +21,8 @@ public class EffectsSettingsMenuState extends EffectsSettingsState {
         explosion.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*3f/6f);
         explosion.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);
         stage.addActor(explosion);
+
+
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -30,10 +32,12 @@ public class EffectsSettingsMenuState extends EffectsSettingsState {
         sh.batch.end();
         stage.draw();
         if(trail.isPressed()){
+            pres.setStarted(false);
             sh.remove(this);
             sh.add(new TransitionState(sh,new TrailEffectsSettingState(sh)));
         }
         if(explosion.isPressed()){
+            pres.setStarted(false);
             sh.remove(this);
             sh.add(new TransitionState(sh,new ExplosionEffectsSettingState(sh)));
         }

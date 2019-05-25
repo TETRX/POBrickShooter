@@ -2,15 +2,21 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Color;
 
-public class Settings {
+public class Settings implements Cloneable{
     public static Rainbow r = new Rainbow();
     static {
         r.start();
     }
 
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
+
     public Coloring trailEffectColor=r;
+    public int trailParticleSize=3;
 
     public Coloring explosionEffectColor=new StandardColor(Color.RED);
+    public int explosionParticleSize=2;
 
     //Bullet
     int level=2;
@@ -39,6 +45,7 @@ public class Settings {
         backgroundColor=new Color();
         this.backgroundColor.set(defaultBackgroundColor);
     }
+
     public void set(Settings x){
         bulletColor.set(x.bulletColor);
         brickColor.set(x.brickColor);
