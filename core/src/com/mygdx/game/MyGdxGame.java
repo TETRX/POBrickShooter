@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
+
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture effects;
 	EffectsHandler effectsHandler;
 	private StateHandler stateHandler;
-	
+
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();

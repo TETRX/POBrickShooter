@@ -72,6 +72,9 @@ public class TrailEffectsSettingState extends EffectsSettingsState {
         selectBox.getScrollPane().act(gameLoopTime);
         sh.batch.begin();
         if(apply.isPressed()){
+            Effect.pixmap.setColor(Color.CLEAR);
+            Effect.pixmap.fill();
+            pres.setStarted(false);
             sh.settings.trailParticleSize=(int)particleSize.getValue();
             if(selectBox.getSelected()=="Plain Color"){
                 sh.settings.trailEffectColor=new StandardColor(Color.RED);
@@ -82,14 +85,19 @@ public class TrailEffectsSettingState extends EffectsSettingsState {
             else if(selectBox.getSelected()=="Random Color"){
                 sh.settings.trailEffectColor=new RandomColor();
             }
+            pres.setStarted(true);
         }
         if (discard.isPressed()){
+            Effect.pixmap.setColor(Color.CLEAR);
+            Effect.pixmap.fill();
             pres.setStarted(false);
             sh.settings=save;
             sh.remove(this);
             sh.add(new TransitionState(sh,new MenuState(sh)));
         }
         if(toMenu.isPressed()){
+            Effect.pixmap.setColor(Color.CLEAR);
+            Effect.pixmap.fill();
             pres.setStarted(false);
             sh.remove(this);
             sh.add(new TransitionState(sh,new MenuState(sh)));

@@ -105,11 +105,15 @@ public class ExplosionEffectsSettingState extends EffectsSettingsState {
         }
         if (discard.isPressed()){
             pres.setStarted(false);
+            Effect.pixmap.setColor(Color.CLEAR);
+            Effect.pixmap.fill();
             sh.settings=save;
             sh.remove(this);
             sh.add(new TransitionState(sh,new MenuState(sh)));
         }
         if(toMenu.isPressed()){
+            Effect.pixmap.setColor(Color.CLEAR);
+            Effect.pixmap.fill();
             pres.setStarted(false);
             sh.remove(this);
             sh.add(new TransitionState(sh,new MenuState(sh)));
