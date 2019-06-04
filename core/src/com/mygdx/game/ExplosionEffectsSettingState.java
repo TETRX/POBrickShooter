@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Select;
 import com.badlogic.gdx.utils.Timer;
@@ -72,8 +73,10 @@ public class ExplosionEffectsSettingState extends EffectsSettingsState {
     @Override
     public void update(float gameLoopTime) {
         super.update(gameLoopTime);
-        font.draw(sh.batch,"Particle Size: ", Gdx.graphics.getWidth()/6,Gdx.graphics.getHeight()*11.5f/28);
-        font.draw(sh.batch, String.valueOf((int)particleSize.getValue()),Gdx.graphics.getWidth()*5/6,Gdx.graphics.getHeight()*11.5f/28);
+        GlyphLayout g = new GlyphLayout();
+        g.setText(font, "Particle Size:");
+        font.draw(sh.batch,"Particle Size: ", Gdx.graphics.getWidth()/6f ,Gdx.graphics.getHeight()*11.5f/28+ g.height);
+        font.draw(sh.batch, String.valueOf((int)particleSize.getValue()),Gdx.graphics.getWidth()*5f/6f,Gdx.graphics.getHeight()*11.5f/28);
         sh.batch.end();
         stage.draw();
         selectBox.act(gameLoopTime);

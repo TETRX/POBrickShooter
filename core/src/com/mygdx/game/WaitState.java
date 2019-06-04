@@ -96,7 +96,7 @@ public class WaitState extends State implements Serializable {
         stage.clear();
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
         endGame = new TextButton("End", skin);
-        endGame.setPosition(15,Gdx.graphics.getHeight()-45);
+        endGame.setPosition(15f/600f*Gdx.graphics.getWidth(),Gdx.graphics.getHeight()-45f/600f*Gdx.graphics.getWidth());
         endGame.setSize(45,30);
         stage.addActor(endGame);
 
@@ -117,7 +117,7 @@ public class WaitState extends State implements Serializable {
 
         });
         removeLastMove = new TextButton("try again", skin);
-        removeLastMove.setPosition(75,Gdx.graphics.getHeight()-45);
+        removeLastMove.setPosition(75f/600f*Gdx.graphics.getWidth(),Gdx.graphics.getHeight()-45f/600f*Gdx.graphics.getWidth());
         removeLastMove.setSize(90,30);
         stage.addActor(removeLastMove);
         Gdx.input.setInputProcessor(stage);
@@ -241,7 +241,7 @@ public class WaitState extends State implements Serializable {
                     float i=-0.15f;
                     for(Bullet x : listOfBullets){
                         x.set(start.mulAdd(velocity,i),velocity);
-                        x.fast=550;
+                        x.fast=Gdx.graphics.getWidth();
                     }
                     save(this);
                     sh.add(new PlayState(sh,this,round));

@@ -10,7 +10,7 @@ import java.io.Serializable;
 import static com.badlogic.gdx.math.MathUtils.floor;
 
 public class Bullet implements Serializable {
-    static final float radius = 15F;
+    static final float radius = 0.025f*Gdx.graphics.getWidth();
     Vector2 bulletPosition;
     Vector2 bulletVelocity;
     WaitState ws;
@@ -18,7 +18,7 @@ public class Bullet implements Serializable {
     boolean canMultipy=true;
     transient ShapeRenderer shapeRenderer=new ShapeRenderer();
     transient TwinkleEffect twinkleEffect;
-    int fast=550;
+    int fast=Gdx.graphics.getWidth();
 
     public Bullet(WaitState ws){
         this.ws=ws;
@@ -35,7 +35,7 @@ public class Bullet implements Serializable {
 
     public void set(Vector2 pos, Vector2 velocity){
         bulletPosition=new Vector2(pos.x,pos.y);
-        bulletVelocity=new Vector2(velocity.x, velocity.y);
+        bulletVelocity=new Vector2(velocity.x*Gdx.graphics.getHeight()/800, velocity.y*Gdx.graphics.getWidth()/600);
     }
 
     void continueGame(){
@@ -43,7 +43,7 @@ public class Bullet implements Serializable {
         shapeRenderer=new ShapeRenderer();
     }
 
-    public void faster(){if(fast<2000) fast+=500; bulletVelocity.clamp(fast,fast);System.out.println(fast);}
+    public void faster(){if(fast<Gdx.graphics.getWidth()*10/3) fast+=500; bulletVelocity.clamp(fast,fast);System.out.println(fast);}
 
     public Pair<Integer,Integer> update(float gameLoopTime) {
         if(Math.abs(bulletVelocity.y)<2)
@@ -56,7 +56,7 @@ public class Bullet implements Serializable {
             return new Pair<Integer,Integer>(0,0);
 
         //-----------------odbijanie od brzegow
-        if(ws.floor>0 && bulletPosition.y<radius+15 && bulletVelocity.y<0){
+        if(ws.floor>0 && bulletPosition.y<2*radius && bulletVelocity.y<0){
             bulletVelocity.y*=(-1);
             ws.floor--;
         }

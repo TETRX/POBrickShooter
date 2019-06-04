@@ -53,7 +53,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			selectBox.setHeight(Gdx.graphics.getHeight()/4);
 			selectBox.setX(Gdx.graphics.getWidth()/4);
 			selectBox.setY(Gdx.graphics.getHeight()/3);
-			selectBox.setItems(new ScreenSize(300,400),new ScreenSize(450,600),new ScreenSize(600,800),new ScreenSize(900,1200), b);
+			selectBox.setItems(new ScreenSize(450,600),new ScreenSize(600,800),new ScreenSize(900,1200), b);
 			selectBox.setSelected(b);
 			selectBox.setDisabled(false);
 			Gdx.input.setInputProcessor(stage);

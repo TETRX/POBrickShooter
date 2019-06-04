@@ -45,7 +45,7 @@ public class Block implements Serializable {
    void continueGame(){
        font=new BitmapFont();
        font.setColor(Color.BLACK);
-       font.getData().setScale(2,2);
+       font.getData().setScale(2f/600f*Gdx.graphics.getWidth(),2f/600f*Gdx.graphics.getWidth());
        shapeRenderer=new ShapeRenderer();
        texture=new Texture("Brick1.jpg");
        image=new Image(texture);
@@ -59,9 +59,9 @@ public class Block implements Serializable {
     public int render(){
 
         if(fontSize>2 && fontSize<3 && fontUp)
-            fontSize+=0.2;
+            fontSize+=0.2f/600f*Gdx.graphics.getWidth();
         if(fontSize>2 && fontSize<3 && !fontUp)
-            fontSize-=0.2;
+            fontSize-=0.2f/600f*Gdx.graphics.getWidth();
         if(fontSize>=3){
             fontUp=false;
             fontSize=2.9f;
@@ -69,7 +69,7 @@ public class Block implements Serializable {
 
         if(fontSize <=2){
             fontUp=true;
-            fontSize=2;
+            fontSize=2f/600f*Gdx.graphics.getWidth();
         }
 
 
