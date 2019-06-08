@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import java.util.Vector;
+
 
 public class SettingsState extends State{
     Stage stage;
@@ -15,6 +17,7 @@ public class SettingsState extends State{
     Button changeColours;
     Button changeLevel;
     Button toMenu;
+    Button back;
     void createButtons(){
         stage= new Stage();
         skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
@@ -34,6 +37,12 @@ public class SettingsState extends State{
         toMenu.setSize((float)Gdx.graphics.getWidth()/10,(float) Gdx.graphics.getHeight()/10);
         stage.addActor(toMenu);
         Gdx.input.setInputProcessor(stage);
+
+        back= new TextButton("back", skin);
+        back.setPosition( Gdx.graphics.getWidth()*1/20,Gdx.graphics.getHeight()/40);
+        back.setSize((float)Gdx.graphics.getWidth()/10,(float) Gdx.graphics.getHeight()/10);
+        stage.addActor(back);
+
     }
 
     protected SettingsState(StateHandler sh) {
@@ -42,19 +51,32 @@ public class SettingsState extends State{
         createButtons();
 
     }
+
+    boolean a;
+
+
     @Override
     public void update(float gameLoopTime) {
+        if(a){
+            a=false;
+            createButtons();
+        }
         sh.batch.end();
         stage.draw();
         sh.batch.begin();
         if(toMenu.isPressed()){
-            sh.add(new TransitionState(sh,new MenuState(sh)));
+            sh.remove(this);
         }
         if(changeColours.isPressed()){
+            a=true;
             sh.add(new TransitionState(sh,new EffectsSettingsMenuState(sh)));
         }
         if(changeLevel.isPressed()){
+            a=true;
             sh.add(new TransitionState(sh,new ChangeLevelState(sh)));
+        }
+        if(back.isPressed()){
+            sh.remove(this);
         }
     }
 }

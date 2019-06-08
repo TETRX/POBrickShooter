@@ -15,6 +15,7 @@ public class TransitionState extends State {
         countdown+=gameLoopTime;
         if(countdown>0.2){
             countdown=0;
+            sh.remove(this);
             sh.add(nextState);
         }
     }

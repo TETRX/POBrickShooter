@@ -17,6 +17,7 @@ public class MenuState extends State {
     Button newGame;
     Button continueGame;
     Button settings;
+    Button exit;
     protected MenuState(StateHandler sh) {
         super(sh);
         this.sh=sh;
@@ -34,15 +35,48 @@ public class MenuState extends State {
         settings.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*3f/6f);
         settings.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);
         stage.addActor(settings);
+        exit = new TextButton("Exit Game", skin);
+        exit.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*1f/6f);
+        exit.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);
+        stage.addActor(exit);
         Gdx.input.setInputProcessor(stage);
     }
+
+    boolean a;
+
+    public void restore(){
+        skin=new Skin(Gdx.files.internal("ccskin/clean-crispy-ui.json"));
+        newGame = new TextButton("New Game", skin);
+        newGame.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*4f/6f);
+        newGame.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);
+        stage.addActor(newGame);
+        continueGame = new TextButton("Continue Game", skin);
+        continueGame.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*2f/6f);
+        continueGame.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);
+        stage.addActor(continueGame);
+        settings = new TextButton("Settings", skin);
+        settings.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*3f/6f);
+        settings.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);
+        stage.addActor(settings);
+        exit = new TextButton("Exit Game", skin);
+        exit.setPosition(Gdx.graphics.getWidth()/2F-Gdx.graphics.getWidth()*3F/16F,Gdx.graphics.getHeight()*1f/6f);
+        exit.setSize(Gdx.graphics.getWidth()*3F/8F,Gdx.graphics.getHeight()/8f);
+        stage.addActor(exit);
+        Gdx.input.setInputProcessor(stage);
+    }
+
     @Override
     public void update(float gameLoopTime) {
+        if(a){
+            a=false;
+            restore();
+        }
         sh.batch.end();
         stage.draw();
         sh.batch.begin();
         //----new game
         if(newGame.getClickListener().isPressed()){
+            a=true;
             sh.add(new TransitionState(sh,new WaitState(sh)));
         }
 
@@ -79,9 +113,13 @@ public class MenuState extends State {
 
         }
 
+        if (exit.isPressed()){
+            Gdx.app.exit();
+        }
+
         //----------settings
         if(settings.getClickListener().isPressed()){
-            sh.remove(this);
+            a=true;
             sh.add(new TransitionState(sh,new SettingsState(sh)));
         }
     }

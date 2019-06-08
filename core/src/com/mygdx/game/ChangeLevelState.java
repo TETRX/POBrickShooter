@@ -15,6 +15,7 @@ public class ChangeLevelState extends State{
     Button medium;
     Button hard;
     Button toMenu;
+    Button back;
 
     ChangeLevelState(StateHandler sh){
         this.sh=sh;
@@ -37,6 +38,10 @@ public class ChangeLevelState extends State{
         toMenu.setPosition( Gdx.graphics.getWidth()*17/20,Gdx.graphics.getHeight()/40);
         toMenu.setSize((float)Gdx.graphics.getWidth()/10,(float) Gdx.graphics.getHeight()/10);
         stage.addActor(toMenu);
+        back= new TextButton("back", skin);
+        back.setPosition( Gdx.graphics.getWidth()*1/20,Gdx.graphics.getHeight()/40);
+        back.setSize((float)Gdx.graphics.getWidth()/10,(float) Gdx.graphics.getHeight()/10);
+        stage.addActor(back);
         Gdx.input.setInputProcessor(stage);
 
     }
@@ -58,6 +63,9 @@ public class ChangeLevelState extends State{
         }
         if(hard.isPressed()){
             sh.settings.level=3;
+        }
+        if(back.isPressed()){
+            sh.remove(this);
         }
 
     }
