@@ -38,4 +38,7 @@ public class EffectsSettingsState extends WaitState{
         sh.batch.begin();
         presBlock.render();
     }
+
+    @Override
+    void save(WaitState ws){ }
 }

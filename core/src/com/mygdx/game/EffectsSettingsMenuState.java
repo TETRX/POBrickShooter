@@ -43,4 +43,5 @@ public class EffectsSettingsMenuState extends EffectsSettingsState {
         }
         sh.batch.begin();
     }
+
 }
